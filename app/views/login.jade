@@ -1,0 +1,22 @@
+extends layout
+
+block mainContent
+    each val in messages
+        .flash #{val}         
+    .container
+        form.form-signin(action="/login", method="post")
+            h2.form-signin-heading.text-center Login
+                 
+            label.sr-only(for='username') Username
+            input.form-control(type='text', name='username', id='username', placeholder='Username', required, autofocus)
+
+            label.sr-only(for='password') Password
+            input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+            
+            button.btn.btn-lg.btn-primary.btn-block(type='submit') Login                
+    .row
+        .center-block.text-center
+            a(href="/oauth/facebook") Login with Facebook |
+            a(href="/oauth/twitter") Login with Twitter
+                
+            

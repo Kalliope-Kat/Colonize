@@ -3,11 +3,18 @@ html
     head
         title Colonize
         link(href='../styles/layout.css', rel='stylesheet')
+        link(href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet")
+        link(href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet")
     body
         nav#menu-bar
-            li#current Home
-            li Users
-            li Login               
-            li Logout
+            a#current(href='/') Home
+            a(href='/users') Users
+            if user
+                a(href='/logout') Logout
+                h2 Hello #{user}
+            else
+                a(href='/register') Register
+                a(href='/login') Login
+                
                 
         block mainContent
