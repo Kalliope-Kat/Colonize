@@ -6,15 +6,15 @@ html
         link(href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet")
         link(href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet")
     body
-        nav#menu-bar
-            a#current(href='/') Home
+        nav.menu-bar
+            a#current(href='/home') Home
             a(href='/users') Users
             if user
                 a(href='/logout') Logout
                 h2 Hello #{user}
             else
                 a(href='/register') Register
-                a(href='/login') Login
+                a(href='/') Login
                 
                 
         block mainContent

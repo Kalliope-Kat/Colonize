@@ -100,7 +100,7 @@ exports.renderLogin = function(req, res, next) {
         });
     }
     else{
-        return res.redirect('/');
+        return res.redirect('/home');
     }
 };
 
@@ -112,7 +112,7 @@ exports.renderRegister = function(req, res, next) {
         });
     }
     else{
-        return res.redirect('/');
+        return res.redirect('/home');
     }
 };
 
@@ -133,7 +133,7 @@ exports.register = function(req, res, next) {
                     return next(err);
                 }
                 
-                return res.redirect('/');
+                return res.redirect('/home');
             });
         });
     }
@@ -144,5 +144,5 @@ exports.register = function(req, res, next) {
 
 exports.logout = function(req, res) {
     req.logout();
-    res.redirect('/login');
+    res.redirect('/');
 };

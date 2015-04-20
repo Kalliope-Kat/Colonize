@@ -4,7 +4,7 @@ block mainContent
     each val in messages
         .flash #{val}         
     .container
-        form.form-signin(action="/login", method="post")
+        form.form-signin(action="/", method="post")
             h2.form-signin-heading.text-center Login
                  
             label.sr-only(for='username') Username
