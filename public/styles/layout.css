@@ -1,10 +1,5 @@
 body {
-    width: 80%;
     margin: 0 auto;
     font-family: arial;
-    font-size: 12px;
-}
-
-.menu-bar{
-    
+    font-size: 16px !important;
 }
