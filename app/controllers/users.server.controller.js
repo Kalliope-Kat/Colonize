@@ -2,147 +2,173 @@ var User = require('mongoose').model('User'),
     util = require('util'),
     passport = require('passport');
 
-exports.create = function(req, res, next) {
+exports.create = function (req, res, next) {
     var user = new User(req.body);
-//    console.log(req.body);
-    user.save(function(err) {
-        if(err){
+    //    console.log(req.body);
+    user.save(function (err) {
+        if (err) {
             return next(err);
-        }
-        else{
+        } else {
             res.json(user);
         }
     });
 };
 
-exports.list = function(req, res, next) {
-    User.find({}, function(err, users) {
-        if(err) {
+exports.list = function (req, res, next) {
+    User.find({}, function (err, users) {
+        if (err) {
             return next(err);
-        }
-        else{
+        } else {
             util.inspect(res.json(users));
         }
     });
 };
 
-exports.read = function(req, res) {
-	util.inspect(res.json(req.user), {showHidden: true});
-};
-
-exports.userByID = function(req, res, next, id) {
-	User.findOne({
-			_id: id
-		}, 
-		function(err, user) {
-			if (err) {
-				return next(err);
-			}
-			else {
-				req.user = user;
-				next();
-			}
-		}
-	);
-};
-
-exports.update = function(req, res, next) {
-    User.findByIdAndUpdate(req.user.id, req.body,
-                           function(err, user) {
-        if(err) {
-            return next(err);
-        }
-        else{
-            res.json(user);
-        }
+exports.read = function (req, res) {
+    util.inspect(res.json(req.user), {
+        showHidden: true
     });
 };
 
-exports.delete = function(req, res, next) {
-    req.user.remove(function(err) {
-        if(err) {
-            return next(err);
+exports.userByID = function (req, res, next, id) {
+    User.findOne({
+            _id: id
+        },
+        function (err, user) {
+            if (err) {
+                return next(err);
+            } else {
+                req.user = user;
+                next();
+            }
         }
-        else{
+    );
+};
+
+exports.update = function (req, res, next) {
+    User.findByIdAndUpdate(req.user.id, req.body,
+        function (err, user) {
+            if (err) {
+                return next(err);
+            } else {
+                res.json(user);
+            }
+        });
+};
+
+exports.delete = function (req, res, next) {
+    req.user.remove(function (err) {
+        if (err) {
+            return next(err);
+        } else {
             res.json(req.user);
         }
     });
 };
 
 
-var getErrorMessage = function(err) {
+var getErrorMessage = function (err) {
     var message = '';
-    if(err.code) {
-        switch(err.code) {
-                case 11000:
-                case 11001:
-                    message = 'Username already exists';
-                    break;
-                default:
-                    message = 'Something went wrong...';
+    if (err.code) {
+        switch (err.code) {
+        case 11000:
+        case 11001:
+            message = 'Username already exists';
+            break;
+        default:
+            message = 'Something went wrong...';
         }
-    }
-    else{
-        for(var errName in err.errors) {
-            if(err.errors[errName].message)
+    } else {
+        for (var errName in err.errors) {
+            if (err.errors[errName].message)
                 message = err.errors[errName].message;
         }
     }
-    
+
     return message;
 };
-            
-exports.renderLogin = function(req, res, next) {
-    if(!req.user) {
+
+exports.renderLogin = function (req, res, next) {
+    if (!req.user) {
         res.render('login', {
-            title: 'Login', 
+            title: 'Login',
             messages: req.flash('error') || req.flash('info')
         });
-    }
-    else{
+    } else {
         return res.redirect('/home');
     }
 };
 
-exports.renderRegister = function(req, res, next) {
-    if(!req.user) {
+exports.renderRegister = function (req, res, next) {
+    if (!req.user) {
         res.render('register', {
-            title: 'Register', 
+            title: 'Register',
             messages: req.flash('error')
         });
-    }
-    else{
+    } else {
         return res.redirect('/home');
     }
 };
 
-exports.register = function(req, res, next) {
-    if(!req.user) {
+exports.register = function (req, res, next) {
+    if (!req.user) {
         var user = new User(req.body);
         var message = null;
         user.provider = 'local';
-        user.save(function(err) {
-            if(err) {
+        user.save(function (err) {
+            if (err) {
                 var message = getErrorMessage(err);
                 req.flash('error', message);
                 return res.redirect('/register');
             }
-            
-            req.login(user, function(err) {
-                if(err) {
+
+            req.login(user, function (err) {
+                if (err) {
                     return next(err);
                 }
-                
+
                 return res.redirect('/home');
             });
         });
-    }
-    else{
+    } else {
         return res.redirect('/');
     }
 };
 
-exports.logout = function(req, res) {
+exports.saveOAuthUserProfile = function (req, profile, done) {
+    User.findOne({
+            provider: profile.provider,
+            providerId: profile.providerId
+        },
+        function (err, user) {
+            if (err) {
+                return done(err);
+            } else {
+                if (!user) {
+                    var possibleUsername = profile.username || ((profile.email) ? profile.email.split('@') [0]: '');
+                    User.findUniqueUsername(possibleUsername, null,
+                        function (availableUsername) {
+                            profile.username = availableUsername;
+                            user = new User(profile);
+                            user.save(function (err) {
+                                if (err) {
+                                    var message = _this.getErrorMessage(err);
+                                    req.flash('error',
+                                        message);
+                                    return res.redirect('/signup');
+                                }
+                                return done(err, user);
+                            });
+                        });
+                } else {
+                    return done(err, user);
+                }
+            }
+        }
+    );
+}
+
+exports.logout = function (req, res) {
     req.logout();
     res.redirect('/');
 };

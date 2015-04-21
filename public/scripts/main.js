@@ -15,7 +15,6 @@ function openCanvas() {
     canvas = document.createElement("canvas");
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
-    canvas.border = 1px solid #00;
     var div = document.getElementById("game");
     console.log(div);
     div.appendChild(canvas);
