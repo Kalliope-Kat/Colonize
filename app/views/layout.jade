@@ -7,10 +7,13 @@ html
         link(href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet")
         script(type='text/javascript' src='../scripts/main.js')
     body
+        
+        .logo
+            //place logo here
         nav.menu-bar
             a#current(href='/home') Home
-            a(href='/users') Users
             if user
+                a(href='/users') Users
                 a(href='/logout') Logout
                 h2 Hello #{user}
             else
@@ -19,3 +22,8 @@ html
                 
                 
         block mainContent
+        if user
+            block gameContent
+        else
+            block pleaseLogin 
+        

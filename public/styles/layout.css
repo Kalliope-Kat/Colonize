@@ -1,5 +1,39 @@
 body {
-    margin: 0 auto;
-    font-family: arial;
+    margin: 0 auto !important;
     font-size: 16px !important;
+}
+
+
+@media(min-width: 845px) {
+    .logo{ 
+        
+        background: url("logo.png") no-repeat;
+        position: absolute;
+        left: 40px;
+        top: 20px;
+        width: 237px;
+        height: 234px;
+    }
+}
+
+.menu-bar {
+    text-align: center;
+}   
+
+.menu-bar a {
+    padding: 5px;
+}
+
+.row a {
+    padding: 2px;
+}
+
+.welcomeBlurb {
+    margin: 0 auto;
+    width: 50%;
+    padding: 5px;
+}
+    
+.pleaseLogin {
+    text-align: center;
 }
