@@ -15,10 +15,9 @@ body {
         height: 234px;
     }
 }
-
 .menu-bar {
     text-align: center;
-}   
+}
 
 .menu-bar a {
     padding: 5px;
@@ -33,7 +32,7 @@ body {
     width: 50%;
     padding: 5px;
 }
-    
+
 .pleaseLogin {
     text-align: center;
 }
