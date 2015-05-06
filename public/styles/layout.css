@@ -36,3 +36,7 @@ body {
 .pleaseLogin {
     text-align: center;
 }
+#game{
+    width: 80%;
+    margin: 0 auto;
+}
