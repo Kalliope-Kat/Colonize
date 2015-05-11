@@ -1,17 +1,26 @@
 var CANVAS_WIDTH = 1280;
 var CANVAS_HEIGHT = 1024;
+var GRID_COLS = 25, GRID_ROWS = 25;
 var titleScreen, instructionScreen, gameScreen;
 var playButton, instructionsButton;
 var FPS = 30;
 var gameOver;
 var GAMESTATE;
+var GRASS = 0,
+    WATER = 1,
+    WOODCUTTER = 2,
+    TREE = 3, 
+    FARM = 4, 
+    STONE = 5,
+    HOUSE = 6, 
+    TOWNHALL = 7;
 var CONSTRUCT = 100,
     INSTRUCTIONS = 200,
     START_GAME = 300,
     IN_GAME = 400,
     GAME_OVER = 500;
-
 var canvas, stage, queue, timerCount, gameTimer;
+
 
 function main() {
     init();
@@ -34,14 +43,14 @@ function loadComplete(evt) {
 
         tilesSheet = new createjs.SpriteSheet({
         images: [queue.getResult("Tiles")],
-        frames: [[0, 0, 90, 60],
-                 [0, 60, 90, 60],
-                 [0, 120, 90, 60],
-                 [0, 180, 90, 60],
-                 [0, 240, 90, 60],
-                 [0, 300, 90, 60],
-                 [0, 360, 90, 60],
-                 [0, 420, 90, 60]
+        frames: [[0, 0, 65, 50],
+                [65, 0, 65, 50],
+                [130, 0, 65, 50],
+                [195, 0, 65, 50],
+                [260, 0, 65, 50],
+                [325, 0, 65, 50],
+                [390, 0, 65, 50],
+                [455, 0, 65, 50]              
                 ],
         animations: {
             grassTile: [0],
@@ -51,7 +60,7 @@ function loadComplete(evt) {
             farmTile: [2],
             houseTile: [1],
             townHallTile: [4],
-            woodCuttersStation: [6],
+            woodCuttersTile: [6],
         }
     });
 
@@ -132,7 +141,7 @@ fileManifest = [
         id: "ColonizeSet2"
     },
     {
-        src: "TileSheet.png",
+        src: "TileSheet2.png",
         id: "Tiles"
     }
 
@@ -146,21 +155,103 @@ function loadFiles() {
     queue.loadManifest(fileManifest);
 }
 
-function drawMap(){
+var grid = {
+    width: null,
+    height: null,
+    _grid: null,
+    
+    init: function() {
+        this.width = GRID_COLS;
+        this.height = GRID_ROWS;
+        this._grid = [];
+        
+        for(var x = 0; x < this.width; x++)
+        {
+            
+            this._grid.push([]);
+            
+            for(var y=0; y < this.height; y++)
+            {
+                this._grid[x].push(GRASS);
+            }
+        }
+        
+    },
+    
+    set: function(val, x, y){
+        this._grid[x][y]=val;
+    },
+    
+    get: function(x,y)
+    {
+        return this._grid[x][y];
+    }
+}
+        
+        
+
+function drawMap() {
     stage.removeAllChildren();
-    for(i = 0; i < 20 ; i++){
-        for(j = 0; j <20; j++){
+    for (x = 0; x < grid.width; x++) {
+        for (y = 0; y < grid.height; y++) {
             tiles = new createjs.Sprite(tilesSheet);
-            tiles.x = ((j-i) * 45) + canvas.width/2;
-            tiles.y = (i+j) * 30;
+            tiles.x = ((x - y) * 32.5) + canvas.width / 2;
+            tiles.y = (x + y) * 25;
             console.log(tiles.x + "," + tiles.y);
             tiles.regX = 45;
             tiles.regY = 30;
-            tiles.gotoAndStop("grassTile");
+            switch (grid.get(x, y)) {
+                case GRASS:
+                    tiles.gotoAndStop("grassTile");                    
+                    break;
+                case WATER:
+                    tiles.gotoAndStop("waterTile");
+                    break;
+                case WOODCUTTER:
+                    tiles.gotoAndStop("woodCuttersTile");
+                    break;
+                case TREE:
+                    tiles.gotoAndStop("treeTile");
+                    break;
+                case FARM:
+                    tiles.gotoAndStop("farmTile");
+                    break;
+                case STONE:
+                    tiles.gotoAndStop("stoneTile");
+                    break;
+                case HOUSE:
+                    tiles.gotoAndStop("houseTile");
+                    break;
+                case TOWNHALL:
+                    tiles.gotoAndStop("townHall");
+                    break;
+            }
             stage.addChild(tiles);
+            stage.update();
         }
     }
 }
+
+function spawnResources(resource){
+    var _empty = [];
+    for(var x = 0; x < grid.width; x++){
+        for(var y = 0; y < grid.height; y++){
+            if(grid.get(x,y)===resource){
+                grid.set(GRASS, x, y);
+                _empty.push({x:x, y:y});
+            }
+            if(grid.get(x,y)===GRASS){
+                _empty.push({x:x, y:y});
+            }
+        }
+    }
+    
+    var randIndex = Math.floor(Math.random()*_empty.length);
+    var randPos = _empty[randIndex];
+    
+    grid.set(resource, randPos.x, randPos.y);
+}
+
 
 function openCanvas() {
     console.log("opened canvas");
@@ -326,12 +417,13 @@ function loop() {
         break;
     case START_GAME:
         console.log("starting game...");
-        GAMESTATE = "hold";
         //runGameTimer();
+        grid.init();
+        spawnResources(WATER);
         drawMap();
-//      displayGame();
+        GAMESTATE = IN_GAME;
         break;
-    case IN_GAME:
+    case IN_GAME:   
         console.log("in game");
         //logic
         break;
