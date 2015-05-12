@@ -1,6 +1,7 @@
 var CANVAS_WIDTH = 1280;
 var CANVAS_HEIGHT = 1024;
-var GRID_COLS = 25, GRID_ROWS = 25;
+var GRID_COLS = 25,
+    GRID_ROWS = 25;
 var titleScreen, instructionScreen, gameScreen;
 var playButton, instructionsButton;
 var FPS = 30;
@@ -9,10 +10,10 @@ var GAMESTATE;
 var GRASS = 0,
     WATER = 1,
     WOODCUTTER = 2,
-    TREE = 3, 
-    FARM = 4, 
+    TREE = 3,
+    FARM = 4,
     STONE = 5,
-    HOUSE = 6, 
+    HOUSE = 6,
     TOWNHALL = 7;
 var CONSTRUCT = 100,
     INSTRUCTIONS = 200,
@@ -41,7 +42,7 @@ var tiles, tilesSheet, boy1Walk, boy2Walk, girl1Walk, girl2Walk;
 
 function loadComplete(evt) {
 
-        tilesSheet = new createjs.SpriteSheet({
+    tilesSheet = new createjs.SpriteSheet({
         images: [queue.getResult("Tiles")],
         frames: [[0, 0, 65, 50],
                 [65, 0, 65, 50],
@@ -50,7 +51,7 @@ function loadComplete(evt) {
                 [260, 0, 65, 50],
                 [325, 0, 65, 50],
                 [390, 0, 65, 50],
-                [455, 0, 65, 50]              
+                [455, 0, 65, 50]
                 ],
         animations: {
             grassTile: [0],
@@ -159,36 +160,33 @@ var grid = {
     width: null,
     height: null,
     _grid: null,
-    
-    init: function() {
+
+    init: function () {
         this.width = GRID_COLS;
         this.height = GRID_ROWS;
         this._grid = [];
-        
-        for(var x = 0; x < this.width; x++)
-        {
-            
+
+        for (var x = 0; x < this.width; x++) {
+
             this._grid.push([]);
-            
-            for(var y=0; y < this.height; y++)
-            {
+
+            for (var y = 0; y < this.height; y++) {
                 this._grid[x].push(GRASS);
             }
         }
-        
+
     },
-    
-    set: function(val, x, y){
-        this._grid[x][y]=val;
+
+    set: function (val, x, y) {
+        this._grid[x][y] = val;
     },
-    
-    get: function(x,y)
-    {
+
+    get: function (x, y) {
         return this._grid[x][y];
     }
 }
-        
-        
+
+
 
 function drawMap() {
     stage.removeAllChildren();
@@ -201,30 +199,30 @@ function drawMap() {
             tiles.regX = 45;
             tiles.regY = 30;
             switch (grid.get(x, y)) {
-                case GRASS:
-                    tiles.gotoAndStop("grassTile");                    
-                    break;
-                case WATER:
-                    tiles.gotoAndStop("waterTile");
-                    break;
-                case WOODCUTTER:
-                    tiles.gotoAndStop("woodCuttersTile");
-                    break;
-                case TREE:
-                    tiles.gotoAndStop("treeTile");
-                    break;
-                case FARM:
-                    tiles.gotoAndStop("farmTile");
-                    break;
-                case STONE:
-                    tiles.gotoAndStop("stoneTile");
-                    break;
-                case HOUSE:
-                    tiles.gotoAndStop("houseTile");
-                    break;
-                case TOWNHALL:
-                    tiles.gotoAndStop("townHall");
-                    break;
+            case GRASS:
+                tiles.gotoAndStop("grassTile");
+                break;
+            case WATER:
+                tiles.gotoAndStop("waterTile");
+                break;
+            case WOODCUTTER:
+                tiles.gotoAndStop("woodCuttersTile");
+                break;
+            case TREE:
+                tiles.gotoAndStop("treeTile");
+                break;
+            case FARM:
+                tiles.gotoAndStop("farmTile");
+                break;
+            case STONE:
+                tiles.gotoAndStop("rockTile");
+                break;
+            case HOUSE:
+                tiles.gotoAndStop("houseTile");
+                break;
+            case TOWNHALL:
+                tiles.gotoAndStop("townHall");
+                break;
             }
             stage.addChild(tiles);
             stage.update();
@@ -232,24 +230,47 @@ function drawMap() {
     }
 }
 
-function spawnResources(resource){
+function spawnResources(resource) {
     var _empty = [];
-    for(var x = 0; x < grid.width; x++){
-        for(var y = 0; y < grid.height; y++){
-            if(grid.get(x,y)===resource){
+    for (var x = 0; x < grid.width; x++) {
+        for (var y = 0; y < grid.height; y++) {
+            if (grid.get(x, y) === resource) {
                 grid.set(GRASS, x, y);
-                _empty.push({x:x, y:y});
+                _empty.push({
+                    x: x,
+                    y: y
+                });
             }
-            if(grid.get(x,y)===GRASS){
-                _empty.push({x:x, y:y});
+            if (grid.get(x, y) === GRASS) {
+                _empty.push({
+                    x: x,
+                    y: y
+                });
             }
         }
     }
-    
-    var randIndex = Math.floor(Math.random()*_empty.length);
-    var randPos = _empty[randIndex];
-    
-    grid.set(resource, randPos.x, randPos.y);
+
+    var resourceIndex = Math.floor(Math.random() * _empty.length / 28);
+
+    for (var i = resourceIndex; i < resourceIndex+6; i++) {
+        for (var j = resourceIndex; j < resourceIndex+6; j++) {
+            if (resource === WATER) {
+                var clusterPos = _empty[j,i];
+                clusterPos.x = i;
+                clusterPos.y = j;
+                grid.set(resource, clusterPos.x, clusterPos.y);
+                
+            } else {
+                var randIndex = Math.floor(Math.random() * _empty.length);
+                var randPos = _empty[randIndex];
+
+                grid.set(resource, randPos.x, randPos.y);
+
+            }
+
+
+        }
+    }
 }
 
 
@@ -420,10 +441,12 @@ function loop() {
         //runGameTimer();
         grid.init();
         spawnResources(WATER);
+        spawnResources(TREE);
+        spawnResources(STONE);
         drawMap();
         GAMESTATE = IN_GAME;
         break;
-    case IN_GAME:   
+    case IN_GAME:
         console.log("in game");
         //logic
         break;
