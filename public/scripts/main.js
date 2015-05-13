@@ -1,5 +1,3 @@
-var CANVAS_WIDTH = 1280;
-var CANVAS_HEIGHT = 1024;
 var GRID_COLS = 25,
     GRID_ROWS = 25;
 var titleScreen, instructionScreen, gameScreen;
@@ -20,7 +18,7 @@ var CONSTRUCT = 100,
     START_GAME = 300,
     IN_GAME = 400,
     GAME_OVER = 500;
-var canvas, stage, queue, timerCount, gameTimer;
+var queue, timerCount, gameTimer;
 var logs = 100, firewood = 100, food = 250, stone = 100;
 
 
@@ -30,7 +28,7 @@ function main() {
 }
 
 function init() {
-    openCanvas();
+    canvas.openCanvas();
     loadFiles();
     gameOver = false;
     document.onkeydown = keyDown;
@@ -313,18 +311,18 @@ function displayStats(){
 
 
 
-function openCanvas() {
-    console.log("opened canvas");
-    canvas = document.createElement("canvas");
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
-    var div = document.getElementById("game");
-    console.log(div);
-    div.appendChild(canvas);
-
-    stage = new createjs.Stage(canvas);
-
-}
+//function openCanvas() {
+//    console.log("opened canvas");
+//    canvas = document.createElement("canvas");
+//    canvas.width = CANVAS_WIDTH;
+//    canvas.height = CANVAS_HEIGHT;
+//    var div = document.getElementById("game");
+//    console.log(div);
+//    div.appendChild(canvas);
+//
+//    stage = new createjs.Stage(canvas);
+//
+//}
 
 var mouseX, mouseY;
 
