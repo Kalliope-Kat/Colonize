@@ -116,38 +116,6 @@ function loadComplete(evt) {
 
 }
 
-fileManifest = [
-    {
-        src: "GameScreen.png",
-        id: "gameScreen"
-    },
-    {
-        src: "instructionsScreen.png",
-        id: "instructionsScreen"
-    },
-    {
-        src: "titleScreen.png",
-        id: "titleScreen"
-    },
-    {
-        src: "InstructionsButton.png",
-        id: "instructionsButton"
-    },
-    {
-        src: "playButton.png",
-        id: "playButton"
-    },
-    {
-        src: "ColonizeSet2.png",
-        id: "ColonizeSet2"
-    },
-    {
-        src: "TileSheet2.png",
-        id: "Tiles"
-    }
-
-
-];
 
 
 function loadFiles() {
@@ -309,20 +277,6 @@ function displayStats(){
     stage.addChild(stoneText);
 }
 
-
-
-//function openCanvas() {
-//    console.log("opened canvas");
-//    canvas = document.createElement("canvas");
-//    canvas.width = CANVAS_WIDTH;
-//    canvas.height = CANVAS_HEIGHT;
-//    var div = document.getElementById("game");
-//    console.log(div);
-//    div.appendChild(canvas);
-//
-//    stage = new createjs.Stage(canvas);
-//
-//}
 
 var mouseX, mouseY;
 
