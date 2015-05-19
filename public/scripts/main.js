@@ -21,7 +21,11 @@ var CONSTRUCT = 100,
 var queue, timerCount, gameTimer;
 var logs = 100, firewood = 100, food = 250, stone = 100;
 
-
+if (!!(window.addEventListener)) {
+    window.addEventListener("DOMContentLoaded", main);
+} else { //MSIE
+    window.attachEvent("onload", main);
+}
 
 function main() {
     init();
@@ -108,7 +112,7 @@ function loadComplete(evt) {
     playButton = new createjs.Bitmap(queue.getResult("playButton"));
     instructionsButton = new createjs.Bitmap(queue.getResult("instructionsButton"));
 
-
+    tile = new createjs.Sprite(tilesSheet);
     
     GAMESTATE = CONSTRUCT;
     startLoop();
@@ -154,6 +158,16 @@ var grid = {
         return this._grid[x][y];
     }
 }
+var _tileArray = [];
+function populateTileArray(){
+    for(var i = 0; i < grid.width; i++){
+        _tileArray.push([]);
+        for(var j = 0; j < grid.height; j++)
+        {
+            _tileArray[i].push(tile.clone());
+        }
+    }
+}
 
 
 
@@ -161,48 +175,39 @@ function drawMap() {
     stage.removeAllChildren();
     for (x = 0; x < grid.width; x++) {
         for (y = 0; y < grid.height; y++) {
-            tile = new createjs.Sprite(tilesSheet);
-            tile.x = ((x - y) * 32.5) + canvas.width / 2;
-            tile.y = (x + y) * 25;
-            console.log(tile.x + "," + tile.y);
-            tile.regX = 45;
-            tile.regY = 30;
+            _tileArray[x][y].x = ((x - y) * 32) + canvas.width/2;
+            _tileArray[x][y].y = (x + y) * 22;
+            _tileArray[x][y].regX = 45;
+            _tileArray[x][y].regY = 30;
             
             switch (grid.get(x, y)) {
             case GRASS:
-                tile.gotoAndStop("grassTile");
-                handleTileEvent();
+                _tileArray[x][y].gotoAndStop("grassTile");
                 break;
             case WATER:
-                tile.gotoAndStop("waterTile");
-                handleTileEvent();
+                _tileArray[x][y].gotoAndStop("waterTile");
                 break;
             case WOODCUTTER:
-                tile.gotoAndStop("woodCuttersTile");
-                handleTileEvent();
+                _tileArray[x][y].gotoAndStop("woodCuttersTile");
                 break;
             case TREE:
-                tile.gotoAndStop("treeTile");
-                handleTileEvent();
+                _tileArray[x][y].gotoAndStop("treeTile");
                 break;
             case FARM:
-                tile.gotoAndStop("farmTile");
-                handleTileEvent();
+                _tileArray[x][y].gotoAndStop("farmTile");
                 break;
             case STONE:
-                tile.gotoAndStop("rockTile");
-                handleTileEvent();
+                _tileArray[x][y].gotoAndStop("rockTile");
                 break;
             case HOUSE:
-                tile.gotoAndStop("houseTile");
-                handleTileEvent();
+                _tileArray[x][y].gotoAndStop("houseTile");
                 break;
             case TOWNHALL:
-                tile.gotoAndStop("townHall");
-                handleTileEvent();
+                _tileArray[x][y].gotoAndStop("townHall");
                 break;
             }
-            stage.addChild(tile);
+            console.log(_tileArray[x][y].x + ", " + _tileArray[x][y].y);
+            stage.addChild(_tileArray[x][y]);
             
         }
         stage.update();
@@ -458,11 +463,12 @@ function loop() {
     case CONSTRUCT:
         console.log("constructing...");
         displayMenu();
+        handleButtonClick();
         grid.init();    
+        populateTileArray();
         spawnResources(WATER);
         spawnResources(TREE);
         spawnResources(STONE);
-        handleButtonClick();
         GAMESTATE = "Hold";
         break;
     case INSTRUCTIONS:
@@ -487,9 +493,4 @@ function loop() {
     }
 
     stage.update();
-}
-if (!!(window.addEventListener)) {
-    window.addEventListener("DOMContentLoaded", main);
-} else { //MSIE
-    window.attachEvent("onload", main);
 }
