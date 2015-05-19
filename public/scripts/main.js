@@ -209,7 +209,8 @@ function drawMap() {
             console.log(_tileArray[x][y].x + ", " + _tileArray[x][y].y);
             _tileArray[x][y].on("click", function(evt){
                 console.log("tile clicked at: " + this.x + ", " + this.y
-                            );
+                            + ", " + this.currentAnimation);
+                gatherResource(this);
             });
             stage.addChild(_tileArray[x][y]);
             
@@ -284,6 +285,8 @@ function displayStats(){
     stage.addChild(firewoodText);
     stage.addChild(foodText);
     stage.addChild(stoneText);
+    
+    stage.update();
 }
 
 
@@ -307,11 +310,8 @@ function handleButtonClick() {
     
 }
 
-function handleTileEvent(){
-    tile.addEventListener("click", function(event) {
-        gatherResource(tile);
-    });
-}
+
+
 
 
 function keyDown(e) {
@@ -411,7 +411,6 @@ function gameOverScreen() {
 }
     
 function gatherResource(tile){
-    console.log(tile.x + ", " + tile.y);
     var tileFrame = tile.currentFrame;
     switch(tileFrame){
         case 0:
