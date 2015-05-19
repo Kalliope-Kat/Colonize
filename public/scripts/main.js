@@ -1,4 +1,3 @@
-
 var FPS = 30;
 var gameOver;
 var GAMESTATE;
@@ -39,8 +38,6 @@ function loadFiles() {
     GAMESTATE = CONSTRUCT;
     startLoop();
 }
-
-
 
 
 var logsText, firewoodText, foodText, StoneText;
@@ -131,23 +128,6 @@ function keyUp(e) {
 
 }
 
-function displayMenu() {
-    stage.removeAllChildren();
-    titleScreen.x = 0;
-    titleScreen.y = 0;
-
-    playButton.x = 100;
-    playButton.y = 500;
-
-    instructionsButton.x = 400;
-    instructionsButton.y = 500;
-
-    stage.addChild(titleScreen);
-    stage.addChild(playButton);
-    stage.addChild(instructionsButton);
-    displaySprites();
-
-}
 
 function displaySprites() {
     boy1Walk.x = 560;
@@ -157,40 +137,7 @@ function displaySprites() {
     stage.update();
 }
 
-function displayInstructions() {
-    stage.removeAllChildren();
-    instructionScreen.x = 0;
-    instructionScreen.y = 0;
 
-    var instructionsText = new createjs.Text("Instructions", "16px Lucida Console", "#333");
-
-    playButton.x = 500;
-    playButton.y = 500;
-
-    stage.addChild(instructionScreen);
-    stage.addChild(playButton);
-    stage.addChild(instructionsText);
-}
-
-function displayGame() {
-    stage.removeAllChildren();
-    gameScreen.x = 0;
-    gameScreen.y = 0;
-
-    var gameText = new createjs.Text("Game", "16px lucida Console", "#333");
-
-    stage.addChild(gameScreen);
-    stage.addChild(gameText);
-}
-
-function gameOverScreen() {
-    stage.removeAllChildren();
-    console.log("Reset Screen");
-    displayMainMenu();
-    gameTimer = 0;
-    timerCount = 0;
-
-}
     
 
 function startLoop() {
@@ -220,7 +167,7 @@ function loop() {
     switch (GAMESTATE) {
     case CONSTRUCT:
         console.log("constructing...");
-        displayMenu();
+        menu.display();
         handleButtonClick();
         grid.init();    
         tiles.populateTileArray();
@@ -231,7 +178,7 @@ function loop() {
         break;
     case INSTRUCTIONS:
         console.log("displaying instructions");
-        displayInstructions();
+        menu.displayInstructions();
         break;
     case START_GAME:
         console.log("starting game...");
