@@ -207,6 +207,10 @@ function drawMap() {
                 break;
             }
             console.log(_tileArray[x][y].x + ", " + _tileArray[x][y].y);
+            _tileArray[x][y].on("click", function(evt){
+                console.log("tile clicked at: " + this.x + ", " + this.y
+                            );
+            });
             stage.addChild(_tileArray[x][y]);
             
         }
@@ -234,7 +238,7 @@ function spawnResources(resource) {
         }
     }
 
-    var resourceIndex = Math.floor(Math.random() * _empty.length / 28);
+    var resourceIndex = Math.floor(Math.random() * _empty.length / 26);
 
     for (var i = resourceIndex; i < resourceIndex+6; i++) {
         for (var j = resourceIndex; j < resourceIndex+6; j++) {
