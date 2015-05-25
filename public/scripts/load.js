@@ -71,5 +71,8 @@ var load = {
         instructionsButton = new createjs.Bitmap(queue.getResult("instructionsButton"));
 
         tile = new createjs.Sprite(tilesSheet);
+        
+        GAMESTATE = CONSTRUCT;
+        startLoop();
     }
 }

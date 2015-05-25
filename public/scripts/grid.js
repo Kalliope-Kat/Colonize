@@ -19,6 +19,12 @@ var tiles = {
             this._tileArray.push([]);
             for (var j = 0; j < grid.height; j++) {
                 this._tileArray[i].push(tile.clone());
+                this._tileArray[i][j].on("click", function (evt) {
+                    console.log("tile clicked at: " + this.x + ", " + this.y + ", " + this.currentAnimation);
+                    var tilePosX = i;
+                    var tilePosY = j;
+                    map.gatherResource(this, tilePosX, tilePosY);
+                });
             }
         }
     }
@@ -27,12 +33,11 @@ var tiles = {
 var grid = {
     width: null,
     height: null,
-    _grid: null,
+    _grid: [],
 
     init: function () {
         this.width = GRID_COLS;
         this.height = GRID_ROWS;
-        this._grid = [];
 
         for (var x = 0; x < this.width; x++) {
 
@@ -102,7 +107,6 @@ var map = {
     },
 
     drawMap: function () {
-        stage.removeAllChildren();
         for (x = 0; x < grid.width; x++) {
             for (y = 0; y < grid.height; y++) {
                 tiles._tileArray[x][y].x = ((x - y) * 32) + canvas.width / 2;
@@ -136,11 +140,7 @@ var map = {
                     tiles._tileArray[x][y].gotoAndStop("townHall");
                     break;
                 }
-                console.log(tiles._tileArray[x][y].x + ", " + tiles._tileArray[x][y].y);
-                tiles._tileArray[x][y].on("click", function (evt) {
-                    console.log("tile clicked at: " + this.x + ", " + this.y + ", " + this.currentAnimation);
-                    map.gatherResource(this);
-                });
+                
                 stage.addChild(tiles._tileArray[x][y]);
 
             }
@@ -148,7 +148,7 @@ var map = {
         }
     },
 
-    gatherResource: function (tile) {
+    gatherResource: function (tile, tileX, tileY) {
         var tileFrame = tile.currentFrame;
         switch (tileFrame) {
         case 0:
@@ -162,16 +162,17 @@ var map = {
         case 4:
             break;
         case 5:
-            stone++;
-            console.log("Stone: " + stone);
+            resources.stone++;
+            console.log("Stone: " + resources.stone);
             break;
         case 6:
             break;
         case 7:
-            logs++;
-            console.log("Logs: " + logs);
+            resources.logs++;
+            console.log("Logs: " + resources.logs);
             break;
         }
+        grid.set(GRASS, tileX, tileY);
         stage.update();
     }
 }

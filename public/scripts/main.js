@@ -35,39 +35,9 @@ function loadFiles() {
     queue.on("complete", load.loadComplete, this);
     queue.loadManifest(fileManifest);
     
-    GAMESTATE = CONSTRUCT;
-    startLoop();
+//    GAMESTATE = CONSTRUCT;
+//    startLoop();
 }
-
-
-var logsText, firewoodText, foodText, StoneText;
-
-function displayStats(){
-    
-    logsText = new createjs.Text("Logs: " + logs, "16px lucida Console", "#333");
-    logsText.x = 10;
-    logsText.y = 900;
-    
-    firewoodText = new createjs.Text("Firewood: " + firewood, "16px lucida Console", "#333");
-    firewoodText.x = 10;
-    firewoodText.y = 920;
-    
-    foodText = new createjs.Text("Food: " + food, "16px lucida Console", "#333");
-    foodText.x = 10;
-    foodText.y = 940;
-    
-    stoneText = new createjs.Text("Stone: " + stone, "16px lucida Console", "#333");
-    stoneText.x = 10;
-    stoneText.y = 960;
-    
-    stage.addChild(logsText);
-    stage.addChild(firewoodText);
-    stage.addChild(foodText);
-    stage.addChild(stoneText);
-    
-    stage.update();
-}
-
 
 var mouseX, mouseY;
 
@@ -88,10 +58,6 @@ function handleButtonClick() {
     });
     
 }
-
-
-
-
 
 function keyDown(e) {
     switch (e.keyCode) {
@@ -128,7 +94,6 @@ function keyUp(e) {
 
 }
 
-
 function displaySprites() {
     boy1Walk.x = 560;
     boy1Walk.y = 200;
@@ -137,13 +102,9 @@ function displaySprites() {
     stage.update();
 }
 
-
-    
-
 function startLoop() {
     createjs.Ticker.setFPS(FPS);
     createjs.Ticker.addEventListener("tick", loop);
-
 }
 
 timerCount = 0;
@@ -160,6 +121,12 @@ function runGameTimer() {
 function resetGameTimer() {
     timerCount = 0;
     gameTimer = 0;
+}
+
+function update(){
+    stage.removeAllChildren();
+    map.drawMap();
+    resources.displayResourcesText();
 }
 
 function loop() {
@@ -182,14 +149,14 @@ function loop() {
         break;
     case START_GAME:
         console.log("starting game...");
-        //runGameTimer();
+        stage.removeAllChildren();
         map.drawMap();
-        displayStats();
+        resources.displayResourcesText();
         GAMESTATE = IN_GAME;
         break;
     case IN_GAME:
         console.log("in game");
-        //logic
+        update();
         break;
     case GAME_OVER:
         console.log("game over");
