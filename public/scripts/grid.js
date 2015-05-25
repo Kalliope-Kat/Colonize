@@ -12,7 +12,11 @@ var GRASS = 0,
 var tile = {
     posX: null,
     posY: null,
-    sprite: new createjs.Sprite(tilesSheet)
+}
+
+var civilianSprite = {
+    civPosX: null,
+    civPosY: null,
 }
 
 var tiles = {
@@ -186,5 +190,20 @@ var map = {
             grid.set(GRASS, tileX, tileY);
             stage.update();
         }
+    }, 
+    
+    placeSprite: function(){
+        if(grid.get(1,2) === WATER){
+            civilianSprite.x = 650;
+            civilianSprite.y = 940;
+        }
+        else{
+            civilianSprite.x = 650;
+            civilianSprite.x = 70;
+        }
+        
+        civilianSprite.gotoAndStop("faceSouth");
+        stage.addChild(civilianSprite);
+        stage.update();
     }
 }

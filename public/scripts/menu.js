@@ -13,7 +13,6 @@ var menu = {
         stage.addChild(titleScreen);
         stage.addChild(playButton);
         stage.addChild(instructionsButton);
-        displaySprites();
     },
 
     displayInstructions: function () {

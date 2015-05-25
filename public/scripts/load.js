@@ -1,6 +1,6 @@
 var titleScreen, instructionScreen, gameScreen;
 var playButton, instructionsButton;
-var tile, tilesSheet, boy1Walk, boy2Walk, girl1Walk, girl2Walk;
+var tile, civilianSprite, tilesSheet, boy1Walk, boy1WalkSheet, boy2Walk, girl1Walk, girl2Walk;
 
 var load = {
     loadComplete: function (evt) {
@@ -28,12 +28,8 @@ var load = {
         });
 
 
-
-
-
-        var boy1WalkSheet = new createjs.SpriteSheet({
+        boy1WalkSheet = new createjs.SpriteSheet({
             images: [queue.getResult("ColonizeSet2")],
-            // x, y, width, height, imageIndex*, regX*, regY*
             frames: [[0, 0, 32, 49, ],
                  [32, 0, 32, 49],
                  [96, 0, 32, 49],
@@ -60,10 +56,6 @@ var load = {
         });
 
 
-
-        boy1Walk = new createjs.Sprite(boy1WalkSheet);
-        console.log(boy1WalkSheet.getNumFrames("walkNorth"));
-
         titleScreen = new createjs.Bitmap(queue.getResult("titleScreen"));
         instructionScreen = new createjs.Bitmap(queue.getResult("instructionsScreen"));
         gameScreen = new createjs.Bitmap(queue.getResult("gameScreen"));
@@ -71,6 +63,7 @@ var load = {
         instructionsButton = new createjs.Bitmap(queue.getResult("instructionsButton"));
 
         tile = new createjs.Sprite(tilesSheet);
+        civilianSprite = new createjs.Sprite(boy1WalkSheet);
         
         GAMESTATE = CONSTRUCT;
         startLoop();

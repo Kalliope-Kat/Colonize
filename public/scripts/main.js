@@ -94,13 +94,7 @@ function keyUp(e) {
 
 }
 
-function displaySprites() {
-    boy1Walk.x = 560;
-    boy1Walk.y = 200;
-    boy1Walk.gotoAndPlay("walkNorth");
-    stage.addChild(boy1Walk);
-    stage.update();
-}
+
 
 function startLoop() {
     createjs.Ticker.setFPS(FPS);
@@ -152,6 +146,7 @@ function loop() {
         stage.removeAllChildren();
         map.drawMap();
         resources.displayResourcesText();
+        map.placeSprite();
         GAMESTATE = IN_GAME;
         break;
     case IN_GAME:
