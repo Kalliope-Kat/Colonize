@@ -1,13 +1,19 @@
 var GRID_COLS = 25,
     GRID_ROWS = 25;
 var GRASS = 0,
-    WATER = 1,
-    WOODCUTTER = 2,
-    TREE = 3,
-    FARM = 4,
+    WATER = 3,
+    WOODCUTTER = 6,
+    TREE = 7,
+    FARM = 2,
     STONE = 5,
-    HOUSE = 6,
-    TOWNHALL = 7;
+    HOUSE = 1,
+    TOWNHALL = 4;
+
+var tile = {
+    posX: null,
+    posY: null,
+    sprite: new createjs.Sprite(tilesSheet)
+}
 
 var tiles = {
     _tileArray: null,
@@ -19,11 +25,11 @@ var tiles = {
             this._tileArray.push([]);
             for (var j = 0; j < grid.height; j++) {
                 this._tileArray[i].push(tile.clone());
+                this._tileArray[i][j].posX = i;
+                this._tileArray[i][j].posY = j;
                 this._tileArray[i][j].on("click", function (evt) {
                     console.log("tile clicked at: " + this.x + ", " + this.y + ", " + this.currentAnimation);
-                    var tilePosX = i;
-                    var tilePosY = j;
-                    map.gatherResource(this, tilePosX, tilePosY);
+                    map.gatherResource(this, this.posX, this.posY);
                 });
             }
         }
@@ -151,28 +157,34 @@ var map = {
     gatherResource: function (tile, tileX, tileY) {
         var tileFrame = tile.currentFrame;
         switch (tileFrame) {
-        case 0:
+        case GRASS:
             break;
-        case 1:
+        case WATER:
             break;
-        case 2:
+        case WOODCUTTER:
             break;
-        case 3:
-            break;
-        case 4:
-            break;
-        case 5:
-            resources.stone++;
-            console.log("Stone: " + resources.stone);
-            break;
-        case 6:
-            break;
-        case 7:
+        case TREE:
             resources.logs++;
             console.log("Logs: " + resources.logs);
             break;
+        case FARM:
+            break;
+        case STONE:
+            resources.stone++;
+            console.log("Stone: " + resources.stone);
+            break;
+        case HOUSE:
+            break;
+        case TOWNHALL:
+            break;
         }
-        grid.set(GRASS, tileX, tileY);
-        stage.update();
+        
+        if(tileFrame === WATER){
+            alert("You can't collect that");
+        }
+        else{
+            grid.set(GRASS, tileX, tileY);
+            stage.update();
+        }
     }
 }
