@@ -94,8 +94,6 @@ function keyUp(e) {
 
 }
 
-
-
 function startLoop() {
     createjs.Ticker.setFPS(FPS);
     createjs.Ticker.addEventListener("tick", loop);

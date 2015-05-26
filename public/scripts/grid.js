@@ -7,7 +7,8 @@ var GRASS = 0,
     FARM = 2,
     STONE = 5,
     HOUSE = 1,
-    TOWNHALL = 4;
+    TOWNHALL = 4,
+    PLAYER = 8;
 
 var tile = {
     posX: null,
@@ -15,8 +16,8 @@ var tile = {
 }
 
 var civilianSprite = {
-    civPosX: null,
-    civPosY: null,
+    civPosX: 1,
+    civPosY: 2,
 }
 
 var tiles = {
@@ -125,33 +126,38 @@ var map = {
                 tiles._tileArray[x][y].regY = 30;
 
                 switch (grid.get(x, y)) {
-                case GRASS:
-                    tiles._tileArray[x][y].gotoAndStop("grassTile");
-                    break;
-                case WATER:
-                    tiles._tileArray[x][y].gotoAndStop("waterTile");
-                    break;
-                case WOODCUTTER:
-                    tiles._tileArray[x][y].gotoAndStop("woodCuttersTile");
-                    break;
-                case TREE:
-                    tiles._tileArray[x][y].gotoAndStop("treeTile");
-                    break;
-                case FARM:
-                    tiles._tileArray[x][y].gotoAndStop("farmTile");
-                    break;
-                case STONE:
-                    tiles._tileArray[x][y].gotoAndStop("rockTile");
-                    break;
-                case HOUSE:
-                    tiles._tileArray[x][y].gotoAndStop("houseTile");
-                    break;
-                case TOWNHALL:
-                    tiles._tileArray[x][y].gotoAndStop("townHall");
-                    break;
+                    case GRASS:
+                        tiles._tileArray[x][y].gotoAndStop("grassTile");
+                        break;
+                    case WATER:
+                        tiles._tileArray[x][y].gotoAndStop("waterTile");
+                        break;
+                    case WOODCUTTER:
+                        tiles._tileArray[x][y].gotoAndStop("woodCuttersTile");
+                        break;
+                    case TREE:
+                        tiles._tileArray[x][y].gotoAndStop("treeTile");
+                        break;
+                    case FARM:
+                        tiles._tileArray[x][y].gotoAndStop("farmTile");
+                        break;
+                    case STONE:
+                        tiles._tileArray[x][y].gotoAndStop("rockTile");
+                        break;
+                    case HOUSE:
+                        tiles._tileArray[x][y].gotoAndStop("houseTile");
+                        break;
+                    case TOWNHALL:
+                        tiles._tileArray[x][y].gotoAndStop("townHall");
+                        break;
+                    case PLAYER:
+                        civilianSprite.gotoAndStop("faceSouth");
+                        break;
+                        
                 }
                 
                 stage.addChild(tiles._tileArray[x][y]);
+                stage.addChild(civilianSprite);
 
             }
             stage.update();
@@ -160,31 +166,22 @@ var map = {
 
     gatherResource: function (tile, tileX, tileY) {
         var tileFrame = tile.currentFrame;
+        var collectable = false;
         switch (tileFrame) {
-        case GRASS:
-            break;
-        case WATER:
-            break;
-        case WOODCUTTER:
-            break;
         case TREE:
             resources.logs++;
             console.log("Logs: " + resources.logs);
-            break;
-        case FARM:
+            collectable = true;
             break;
         case STONE:
             resources.stone++;
             console.log("Stone: " + resources.stone);
-            break;
-        case HOUSE:
-            break;
-        case TOWNHALL:
+            collectable = true;
             break;
         }
         
-        if(tileFrame === WATER){
-            alert("You can't collect that");
+        if(!collectable){
+            alert("You can't collect that!");
         }
         else{
             grid.set(GRASS, tileX, tileY);
@@ -193,17 +190,10 @@ var map = {
     }, 
     
     placeSprite: function(){
-        if(grid.get(1,2) === WATER){
-            civilianSprite.x = 650;
-            civilianSprite.y = 940;
+        if(grid.get(civilianSprite.civPosX,civilianSprite.civPosY) === WATER){
+            civilianSprite.civPosX = 15;
+            civilianSprite.civPosY = 15;
         }
-        else{
-            civilianSprite.x = 650;
-            civilianSprite.x = 70;
-        }
-        
-        civilianSprite.gotoAndStop("faceSouth");
-        stage.addChild(civilianSprite);
-        stage.update();
+        grid.set(PLAYER, civilianSprite.civPosX, civilianSprite.civPosY);
     }
 }
