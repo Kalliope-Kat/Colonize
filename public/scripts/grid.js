@@ -34,6 +34,7 @@ var tiles = {
                 this._tileArray[i][j].posY = j;
                 this._tileArray[i][j].on("click", function (evt) {
                     console.log("tile clicked at: " + this.x + ", " + this.y + ", " + this.currentAnimation);
+                    map.moveCharacter(mouseX, mouseY);
                     map.gatherResource(this, this.posX, this.posY);
                 });
             }
@@ -150,9 +151,6 @@ var map = {
                     case TOWNHALL:
                         tiles._tileArray[x][y].gotoAndStop("townHall");
                         break;
-                    case PLAYER:
-                        civilianSprite.gotoAndStop("faceSouth");
-                        break;
                         
                 }
                 
@@ -187,13 +185,11 @@ var map = {
             grid.set(GRASS, tileX, tileY);
             stage.update();
         }
-    }, 
+    },
     
-    placeSprite: function(){
-        if(grid.get(civilianSprite.civPosX,civilianSprite.civPosY) === WATER){
-            civilianSprite.civPosX = 15;
-            civilianSprite.civPosY = 15;
-        }
-        grid.set(PLAYER, civilianSprite.civPosX, civilianSprite.civPosY);
+    moveCharacter: function(mouseX, mouseY){
+        createjs.Tween.get(civilianSprite)
+            .to({x:mouseX, y:mouseY},400);
     }
+    
 }

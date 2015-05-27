@@ -144,7 +144,6 @@ function loop() {
         stage.removeAllChildren();
         map.drawMap();
         resources.displayResourcesText();
-        map.placeSprite();
         GAMESTATE = IN_GAME;
         break;
     case IN_GAME:
