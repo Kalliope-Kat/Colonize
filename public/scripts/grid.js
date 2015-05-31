@@ -9,6 +9,10 @@ var GRASS = 0,
     HOUSE = 1,
     TOWNHALL = 4,
     PLAYER = 8;
+var NORTH = 9,
+    SOUTH = 10,
+    EAST = 11,
+    WEST = 12; 
 
 var tile = {
     posX: null,
@@ -16,8 +20,7 @@ var tile = {
 }
 
 var civilianSprite = {
-    civPosX: 1,
-    civPosY: 2,
+    dir: null
 }
 
 var tiles = {
@@ -34,8 +37,8 @@ var tiles = {
                 this._tileArray[i][j].posY = j;
                 this._tileArray[i][j].on("click", function (evt) {
                     console.log("tile clicked at: " + this.x + ", " + this.y + ", " + this.currentAnimation);
-                    map.moveCharacter(mouseX, mouseY);
-                    map.gatherResource(this, this.posX, this.posY);
+                    map.moveCharacter(this);//pass tile, posX, posY and call gather in tween call
+//                    map.gatherResource(this, this.posX, this.posY);
                 });
             }
         }
@@ -163,6 +166,7 @@ var map = {
     },
 
     gatherResource: function (tile, tileX, tileY) {
+        createjs.Ticker.TIMEOUT = 5000; 
         var tileFrame = tile.currentFrame;
         var collectable = false;
         switch (tileFrame) {
@@ -187,9 +191,16 @@ var map = {
         }
     },
     
-    moveCharacter: function(mouseX, mouseY){
+    handleMovement: function(tile){
+        return function(){
+            map.gatherResource(tile, tile.posX, tile.posY);  
+        }
+    },
+    
+    moveCharacter: function(tile){ //handle water movement here
         createjs.Tween.get(civilianSprite)
-            .to({x:mouseX, y:mouseY},400);
+            .to({x:tile.x, y:tile.y},2500) 
+            .call(map.handleMovement(tile)); 
     }
     
 }

@@ -66,6 +66,9 @@ var load = {
         civilianSprite = new createjs.Sprite(boy1WalkSheet);
         civilianSprite.x = 610;
         civilianSprite.y = 990;
+        civilianSprite.regX = 16;
+        civilianSprite.regY = 24.5;
+        civilianSprite.dir = SOUTH;
         
         GAMESTATE = CONSTRUCT;
         startLoop();
