@@ -1,5 +1,5 @@
-var GRID_COLS = 25,
-    GRID_ROWS = 25;
+var GRID_COLS = 22,
+    GRID_ROWS = 22;
 var GRASS = 0,
     WATER = 3,
     WOODCUTTER = 6,
@@ -12,6 +12,8 @@ var GRASS = 0,
 var isBuild = false;
 var STONECOST = 10,
     WOODCOST = 20;
+var _waterTiles = [];
+var _collisions = [];
 
 var tile = {
     posX: null,
@@ -51,6 +53,7 @@ var tiles = {
             }
         }
     }
+    
 }
 
 var grid = {
@@ -106,7 +109,7 @@ var map = {
             }
         }
 
-        var resourceIndex = Math.floor(Math.random() * _empty.length / 26);
+        var resourceIndex = 0;
 
         for (var i = resourceIndex; i < resourceIndex + 6; i++) {
             for (var j = resourceIndex; j < resourceIndex + 6; j++) {
@@ -123,8 +126,6 @@ var map = {
                     grid.set(resource, randPos.x, randPos.y);
 
                 }
-
-
             }
         }
     },
@@ -132,8 +133,8 @@ var map = {
     drawMap: function () {
         for (x = 0; x < grid.width; x++) {
             for (y = 0; y < grid.height; y++) {
-                tiles._tileArray[x][y].x = ((x - y) * 32) + canvas.width / 2;
-                tiles._tileArray[x][y].y = (x + y) * 22;
+                tiles._tileArray[x][y].x = ((x - y) * 32) + canvas.width / 1.95;
+                tiles._tileArray[x][y].y = ((x + y) * 22) + 35;
                 tiles._tileArray[x][y].regX = 45;
                 tiles._tileArray[x][y].regY = 30;
 
@@ -143,6 +144,7 @@ var map = {
                         break;
                     case WATER:
                         tiles._tileArray[x][y].gotoAndStop("waterTile");
+                        _waterTiles.push(tiles._tileArray[x][y]);
                         break;
                     case WOODCUTTER:
                         tiles._tileArray[x][y].gotoAndStop("woodCuttersTile");
@@ -205,6 +207,7 @@ var map = {
             case GRASS:
                 resources.stone -= STONECOST;
                 resources.logs -= WOODCOST;
+                resources.houses ++;
                 grid.set(HOUSE, tile.posX, tile.posY);
                 stage.update();
                 break;
@@ -230,8 +233,14 @@ var map = {
     
     moveCharacter: function(tile, isBuild){ //handle water movement here
         civilianSprite.gotoAndPlay("walkSouth");
-        tween = createjs.Tween.get(civilianSprite);
-        tween.to({x:tile.x, y:tile.y}, 3500);
+        var tween = createjs.Tween.get(civilianSprite);
+        if(tile.currentFrame === WATER){
+            //You can't go here message.
+        }
+        else{
+            tween.to({x:tile.x, y:tile.y}, 3500);
+        }
+           
         if(isBuild){
             tween.call(map.handleBuilding(tile));
         }
@@ -241,5 +250,8 @@ var map = {
         
         
     },
+    
+    
+    
     
 }

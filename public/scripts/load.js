@@ -64,8 +64,8 @@ var load = {
 
         tile = new createjs.Sprite(tilesSheet);
         civilianSprite = new createjs.Sprite(boy1WalkSheet);
-        civilianSprite.x = 610;
-        civilianSprite.y = 990;
+        civilianSprite.x = 970;
+        civilianSprite.y = 920;
         civilianSprite.regX = 16;
         civilianSprite.regY = 24.5;
         

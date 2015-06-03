@@ -1,10 +1,11 @@
-var logsText, firewoodText, foodText, StoneText;
+var logsText, firewoodText, foodText, stoneText, houseText;
 
 var resources = {
-    logs: 100,
+    logs: 38,
 //    firewood: 100,
 //    food: 250,
-    stone: 100,
+    stone: 18,
+    houses: 0,
 
     displayResourcesText: function () {
 
@@ -23,11 +24,16 @@ var resources = {
         stoneText = new createjs.Text("Stone: " + this.stone, "16px lucida Console", "#333");
         stoneText.x = 10;
         stoneText.y = 920;
+        
+        houseText = new createjs.Text("Houses: " + this.houses, "16px lucida Console", "#333");
+        houseText.x = 10;
+        houseText.y = 940;
 
         stage.addChild(logsText);
 //        stage.addChild(firewoodText);
 //        stage.addChild(foodText);
         stage.addChild(stoneText);
+        stage.addChild(houseText);
 
         stage.update();
     }
