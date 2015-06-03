@@ -68,7 +68,6 @@ var load = {
         civilianSprite.y = 990;
         civilianSprite.regX = 16;
         civilianSprite.regY = 24.5;
-        civilianSprite.dir = SOUTH;
         
         GAMESTATE = CONSTRUCT;
         startLoop();

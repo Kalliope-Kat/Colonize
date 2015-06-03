@@ -9,10 +9,9 @@ var GRASS = 0,
     HOUSE = 1,
     TOWNHALL = 4,
     PLAYER = 8;
-var NORTH = 9,
-    SOUTH = 10,
-    EAST = 11,
-    WEST = 12; 
+var isBuild = false;
+var STONECOST = 10,
+    WOODCOST = 20;
 
 var tile = {
     posX: null,
@@ -36,9 +35,18 @@ var tiles = {
                 this._tileArray[i][j].posX = i;
                 this._tileArray[i][j].posY = j;
                 this._tileArray[i][j].on("click", function (evt) {
-                    console.log("tile clicked at: " + this.x + ", " + this.y + ", " + this.currentAnimation);
-                    map.moveCharacter(this);//pass tile, posX, posY and call gather in tween call
-//                    map.gatherResource(this, this.posX, this.posY);
+                    console.log("shift: " + evt.nativeEvent.shiftKey);
+                    if (evt.nativeEvent.shiftKey) {
+                        console.log("building at: " + this.x + "," + this.y);
+                        isBuild = true;
+                        map.moveCharacter(this, isBuild);
+                    } else {
+                        console.log("tile clicked at: " + this.x + ", " + this.y + ", " + this.currentAnimation);
+                        isBuild = false;
+                        map.moveCharacter(this, isBuild); //pass tile, posX, posY and call gather in tween call
+                        //                    map.gatherResource(this, this.posX, this.posY);
+                    }
+
                 });
             }
         }
@@ -165,8 +173,7 @@ var map = {
         }
     },
 
-    gatherResource: function (tile, tileX, tileY) {
-        createjs.Ticker.TIMEOUT = 5000; 
+    gatherResource: function (tile) {
         var tileFrame = tile.currentFrame;
         var collectable = false;
         switch (tileFrame) {
@@ -183,24 +190,56 @@ var map = {
         }
         
         if(!collectable){
-            alert("You can't collect that!");
+            alert("You can't collect that!"); //Change to something better
         }
         else{
-            grid.set(GRASS, tileX, tileY);
+            grid.set(GRASS, tile.posX, tile.posY);
             stage.update();
         }
+        civilianSprite.stop();
     },
     
-    handleMovement: function(tile){
+    buildHouse: function(tile) {
+        var tileFrame = tile.currentFrame;
+        switch (tileFrame) {
+            case GRASS:
+                resources.stone -= STONECOST;
+                resources.logs -= WOODCOST;
+                grid.set(HOUSE, tile.posX, tile.posY);
+                stage.update();
+                break;
+            default: 
+                //error output to error canvas
+                break;
+        }
+        
+        civilianSprite.stop();
+    },
+    
+    handleGathering: function(tile){
         return function(){
-            map.gatherResource(tile, tile.posX, tile.posY);  
+            map.gatherResource(tile);  
         }
     },
     
-    moveCharacter: function(tile){ //handle water movement here
-        createjs.Tween.get(civilianSprite)
-            .to({x:tile.x, y:tile.y},2500) 
-            .call(map.handleMovement(tile)); 
-    }
+    handleBuilding: function(tile){
+        return function(){
+            map.buildHouse(tile);
+        }
+    },
+    
+    moveCharacter: function(tile, isBuild){ //handle water movement here
+        civilianSprite.gotoAndPlay("walkSouth");
+        tween = createjs.Tween.get(civilianSprite);
+        tween.to({x:tile.x, y:tile.y}, 3500);
+        if(isBuild){
+            tween.call(map.handleBuilding(tile));
+        }
+        else{
+            tween.call(map.handleGathering(tile)); 
+        }
+        
+        
+    },
     
 }
