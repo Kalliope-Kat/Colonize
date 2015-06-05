@@ -1,5 +1,5 @@
-var GRID_COLS = 22,
-    GRID_ROWS = 22;
+var GRID_COLS = 23,
+    GRID_ROWS = 23;
 var GRASS = 0,
     WATER = 3,
     WOODCUTTER = 6,
@@ -134,7 +134,7 @@ var map = {
         for (x = 0; x < grid.width; x++) {
             for (y = 0; y < grid.height; y++) {
                 tiles._tileArray[x][y].x = ((x - y) * 32) + canvas.width / 1.95;
-                tiles._tileArray[x][y].y = ((x + y) * 22) + 35;
+                tiles._tileArray[x][y].y = ((x + y) * 22) + 30;
                 tiles._tileArray[x][y].regX = 45;
                 tiles._tileArray[x][y].regY = 30;
 
