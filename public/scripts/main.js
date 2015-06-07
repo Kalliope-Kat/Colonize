@@ -5,7 +5,9 @@ var CONSTRUCT = 100,
     INSTRUCTIONS = 200,
     START_GAME = 300,
     IN_GAME = 400,
-    GAME_OVER = 500;
+    GAME_OVER = 500,
+    QUIT = 600,
+    MENU = 700;
 var queue, timerCount, gameTimer;
 var logs = 100, firewood = 100, food = 250, stone = 100;
 
@@ -50,11 +52,15 @@ function mouseInit() {
 
 function handleButtonClick() {
     playButton.addEventListener("click", function (event) {
-        GAMESTATE = START_GAME;
+        GAMESTATE = CONSTRUCT;
     });
 
     instructionsButton.addEventListener("click", function (event) {
         GAMESTATE = INSTRUCTIONS;
+    });
+    
+    quitButton.addEventListener("click", function(evt) {
+        GAMESTATE = QUIT;
     });
     
 }
@@ -119,41 +125,50 @@ function update(){
     stage.removeAllChildren();
     map.drawMap();
     resources.displayResourcesText();
+    options.display();
 }
 
 function loop() {
 
     switch (GAMESTATE) {
-    case CONSTRUCT:
-        console.log("constructing...");
-        menu.display();
-        handleButtonClick();
-        grid.init();    
-        tiles.populateTileArray();
-        map.spawnResources(WATER);
-        map.spawnResources(TREE);
-        map.spawnResources(STONE);
-        GAMESTATE = "Hold";
-        break;
-    case INSTRUCTIONS:
-        console.log("displaying instructions");
-        menu.displayInstructions();
-        break;
-    case START_GAME:
-        console.log("starting game...");
-        stage.removeAllChildren();
-        map.drawMap();
-        resources.displayResourcesText();
-        GAMESTATE = IN_GAME;
-        break;
-    case IN_GAME:
-        console.log("in game");
-        update();
-        break;
-    case GAME_OVER:
-        console.log("game over");
-        gameOverScreen();
-        break;
+        case MENU:
+            console.log("menu");
+            menu.display();
+            handleButtonClick();
+            break;        
+        case CONSTRUCT:
+            console.log("constructing...");
+            grid.init();    
+            tiles.populateTileArray();
+            map.spawnResources(WATER);
+            map.spawnResources(TREE);
+            map.spawnResources(STONE);
+            GAMESTATE = START_GAME;
+            break;
+        case INSTRUCTIONS:
+            console.log("displaying instructions");
+            menu.displayInstructions();
+            break;
+        case START_GAME:
+            console.log("starting game...");
+            stage.removeAllChildren();
+            map.drawMap();
+            resources.displayResourcesText();
+            options.display();
+            GAMESTATE = IN_GAME;
+            break;
+        case IN_GAME:
+            console.log("in game");
+            update();
+            break;
+        case QUIT:
+            console.log("quit");
+            GAMESTATE = MENU;
+            break;
+        case GAME_OVER:
+            console.log("game over");
+            gameOverScreen();
+            break;
     }
 
     stage.update();

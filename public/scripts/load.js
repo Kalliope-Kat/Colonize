@@ -61,6 +61,9 @@ var load = {
         gameScreen = new createjs.Bitmap(queue.getResult("gameScreen"));
         playButton = new createjs.Bitmap(queue.getResult("playButton"));
         instructionsButton = new createjs.Bitmap(queue.getResult("instructionsButton"));
+        loadButton = new createjs.Bitmap(queue.getResult("loadButton"));
+        saveButton = new createjs.Bitmap(queue.getResult("saveButton"));
+        quitButton = new createjs.Bitmap(queue.getResult("quitButton"));
 
         tile = new createjs.Sprite(tilesSheet);
         civilianSprite = new createjs.Sprite(boy1WalkSheet);
@@ -69,7 +72,7 @@ var load = {
         civilianSprite.regX = 16;
         civilianSprite.regY = 24.5;
         
-        GAMESTATE = CONSTRUCT;
+        GAMESTATE = MENU;
         startLoop();
     }
 }

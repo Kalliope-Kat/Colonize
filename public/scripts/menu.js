@@ -6,12 +6,16 @@ var menu = {
 
         playButton.x = 100;
         playButton.y = 500;
+        
+        loadButton.x = 400;
+        loadButton.y = 500;
 
-        instructionsButton.x = 400;
+        instructionsButton.x = 700;
         instructionsButton.y = 500;
 
         stage.addChild(titleScreen);
         stage.addChild(playButton);
+        stage.addChild(loadButton);
         stage.addChild(instructionsButton);
     },
 

@@ -26,7 +26,20 @@ var fileManifest = [
     {
         src: "TileSheet2.png",
         id: "Tiles"
+    },
+    {
+        src: "loadButton.png",
+        id: "loadButton"
+    },
+    {
+        src: "saveButton.png",
+        id: "saveButton"
+    },
+    {
+        src: "quitButton.png",
+        id: "quitButton"
     }
+    
 
 
 ];
