@@ -14,6 +14,12 @@ var UserSchema = new Schema({
             trim: true
         },
         password: String,
+        grid: {},
+        spriteX: String,
+        spriteY: String,
+        logs: String,
+        stone: String,
+        houses: String,
         provider: String,
         providerId: String,
         providerData: {}, 

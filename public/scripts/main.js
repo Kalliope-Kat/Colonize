@@ -7,7 +7,8 @@ var CONSTRUCT = 100,
     IN_GAME = 400,
     GAME_OVER = 500,
     QUIT = 600,
-    MENU = 700;
+    SAVE_GAME = 700,
+    MENU = 800;
 var queue, timerCount, gameTimer;
 var logs = 100, firewood = 100, food = 250, stone = 100;
 
@@ -34,7 +35,7 @@ function init() {
 
 function loadFiles() {
     queue = new createjs.LoadQueue(true, "styles/images/");
-    queue.on("complete", load.loadComplete, this);
+    queue.on("complete", preload.loadComplete, this);
     queue.loadManifest(fileManifest);
     
 //    GAMESTATE = CONSTRUCT;
@@ -57,6 +58,10 @@ function handleButtonClick() {
 
     instructionsButton.addEventListener("click", function (event) {
         GAMESTATE = INSTRUCTIONS;
+    });
+    
+    saveButton.addEventListener("click", function(evt){
+        GAMESTATE = SAVE_GAME;
     });
     
     quitButton.addEventListener("click", function(evt) {
@@ -160,6 +165,9 @@ function loop() {
         case IN_GAME:
             console.log("in game");
             update();
+            break;
+        case SAVE_GAME:
+            saveGame(grid, civilianSprite, resources);
             break;
         case QUIT:
             console.log("quit");
