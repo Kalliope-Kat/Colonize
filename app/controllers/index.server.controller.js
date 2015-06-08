@@ -7,13 +7,25 @@ exports.render = function (req, res) {
     });
 };
 
-exports.saveGame = function (req, res) {
+exports.saveGame = function (req, res, next) {
     User.findByIdAndUpdate(req.user.id, req.body,
         function (err, user) {
             if (err) {
                 return next(err);
             } else {
                 res.json(user);
+                next();
+            }
+        });
+}
+
+exports.loadGame = function (req, res, next) {
+    User.findOne(req.user.id,
+        function (err, user) {
+            if (err) {
+                return next(err);
+            } else {
+                req.user = user;
             }
         });
 }

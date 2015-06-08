@@ -57,13 +57,11 @@ var tiles = {
 }
 
 var grid = {
-    width: null,
-    height: null,
+    width: GRID_COLS,
+    height: GRID_ROWS,
     _grid: [],
 
     init: function () {
-        this.width = GRID_COLS;
-        this.height = GRID_ROWS;
 
         for (var x = 0; x < this.width; x++) {
 
@@ -138,7 +136,7 @@ var map = {
                 tiles._tileArray[x][y].regX = 45;
                 tiles._tileArray[x][y].regY = 30;
 
-                switch (grid.get(x, y)) {
+                switch (parseInt(grid.get(x, y))) {
                     case GRASS:
                         tiles._tileArray[x][y].gotoAndStop("grassTile");
                         break;

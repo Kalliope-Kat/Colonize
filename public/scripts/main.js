@@ -8,7 +8,8 @@ var CONSTRUCT = 100,
     GAME_OVER = 500,
     QUIT = 600,
     SAVE_GAME = 700,
-    MENU = 800;
+    LOAD_GAME = 800,
+    MENU = 900;
 var queue, timerCount, gameTimer;
 var logs = 100, firewood = 100, food = 250, stone = 100;
 
@@ -62,6 +63,10 @@ function handleButtonClick() {
     
     saveButton.addEventListener("click", function(evt){
         GAMESTATE = SAVE_GAME;
+    });
+    
+    loadButton.addEventListener("click", function(evt){
+        GAMESTATE = LOAD_GAME;
     });
     
     quitButton.addEventListener("click", function(evt) {
@@ -168,6 +173,10 @@ function loop() {
             break;
         case SAVE_GAME:
             saveGame(grid, civilianSprite, resources);
+            break;
+        case LOAD_GAME:
+            tiles.populateTileArray();
+            loadGame();
             break;
         case QUIT:
             console.log("quit");
