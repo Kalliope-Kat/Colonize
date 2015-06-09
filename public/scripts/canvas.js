@@ -1,5 +1,5 @@
-var CANVAS_WIDTH = 1920;
-var CANVAS_HEIGHT = 1120;
+var CANVAS_WIDTH = 1780;
+var CANVAS_HEIGHT = 945;
 var stage;
 
 var canvas = {

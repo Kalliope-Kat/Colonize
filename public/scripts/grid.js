@@ -1,5 +1,5 @@
-var GRID_COLS = 23,
-    GRID_ROWS = 23;
+var GRID_COLS = 21,
+    GRID_ROWS = 21;
 var GRASS = 0,
     WATER = 3,
     WOODCUTTER = 6,

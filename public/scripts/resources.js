@@ -9,9 +9,9 @@ var resources = {
 
     displayResourcesText: function () {
 
-        logsText = new createjs.Text("Logs: " + this.logs, "16px lucida Console", "#333");
+        logsText = new createjs.Text("Logs: " + this.logs, "18px lucida Console", "#333");
         logsText.x = 10;
-        logsText.y = 900;
+        logsText.y = 880;
 
 //        firewoodText = new createjs.Text("Firewood: " + this.firewood, "16px lucida Console", "#333");
 //        firewoodText.x = 10;
@@ -21,13 +21,13 @@ var resources = {
 //        foodText.x = 10;
 //        foodText.y = 940;
 
-        stoneText = new createjs.Text("Stone: " + this.stone, "16px lucida Console", "#333");
+        stoneText = new createjs.Text("Stone: " + this.stone, "18px lucida Console", "#333");
         stoneText.x = 10;
-        stoneText.y = 920;
+        stoneText.y = 900;
         
-        houseText = new createjs.Text("Houses: " + this.houses, "16px lucida Console", "#333");
+        houseText = new createjs.Text("Houses: " + this.houses, "18px lucida Console", "#333");
         houseText.x = 10;
-        houseText.y = 940;
+        houseText.y = 920;
 
         stage.addChild(logsText);
 //        stage.addChild(firewoodText);

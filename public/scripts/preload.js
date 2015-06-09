@@ -1,5 +1,5 @@
 var titleScreen, instructionScreen, gameScreen;
-var playButton, instructionsButton;
+var playButton, instructionsButton, tradeButton, saveButton, quitButton;
 var tile, civilianSprite, tilesSheet, boy1Walk, boy1WalkSheet, boy2Walk, girl1Walk, girl2Walk;
 
 var preload = {
@@ -67,8 +67,8 @@ var preload = {
 
         tile = new createjs.Sprite(tilesSheet);
         civilianSprite = new createjs.Sprite(boy1WalkSheet);
-        civilianSprite.x = 970;
-        civilianSprite.y = 920;
+        civilianSprite.x = 890;
+        civilianSprite.y = 472.5;
         civilianSprite.regX = 16;
         civilianSprite.regY = 24.5;
         

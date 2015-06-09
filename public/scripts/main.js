@@ -29,6 +29,7 @@ function init() {
     gameOver = false;
     document.onkeydown = keyDown;
     document.onkeyup = keyUp;
+    
 
     mouseInit();
 

@@ -1,10 +1,10 @@
 var options = {
     display: function(){
-        saveButton.x = 1220;
-        saveButton.y = 930;
+        saveButton.x = 10;
+        saveButton.y = 640;
         
-        quitButton.x = 1520;
-        quitButton.y = 930;
+        quitButton.x = 10;
+        quitButton.y = 713;
         
         stage.addChild(saveButton);
         stage.addChild(quitButton);

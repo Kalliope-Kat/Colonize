@@ -10,13 +10,13 @@ var menu = {
         loadButton.x = 400;
         loadButton.y = 500;
 
-        instructionsButton.x = 700;
-        instructionsButton.y = 500;
+//        instructionsButton.x = 700;
+//        instructionsButton.y = 500;
 
         stage.addChild(titleScreen);
         stage.addChild(playButton);
         stage.addChild(loadButton);
-        stage.addChild(instructionsButton);
+//        stage.addChild(instructionsButton);
     },
 
     displayInstructions: function () {
