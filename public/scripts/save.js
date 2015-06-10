@@ -15,6 +15,7 @@ var saveGame = function (grid, sprite, resources) {
         dataType: 'json',
         success: function () {
             console.log("saved game");
+            feedbackLog = "Game Saved!";
             GAMESTATE = IN_GAME;
         }
         

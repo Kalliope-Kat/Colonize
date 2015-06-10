@@ -1,5 +1,5 @@
 var FPS = 30;
-var gameOver;
+var isgameOver = false;
 var GAMESTATE;
 var CONSTRUCT = 100,
     INSTRUCTIONS = 200,
@@ -9,9 +9,11 @@ var CONSTRUCT = 100,
     QUIT = 600,
     SAVE_GAME = 700,
     LOAD_GAME = 800,
-    MENU = 900;
+    TRADE = 900,
+    MENU = 1000;
 var queue, timerCount, gameTimer;
 var logs = 100, firewood = 100, food = 250, stone = 100;
+var feedbackLog;
 
 if (!!(window.addEventListener)) {
     window.addEventListener("DOMContentLoaded", main);
@@ -26,7 +28,6 @@ function main() {
 function init() {
     canvas.openCanvas();
     loadFiles();
-    gameOver = false;
     document.onkeydown = keyDown;
     document.onkeyup = keyUp;
     
@@ -58,8 +59,12 @@ function handleButtonClick() {
         GAMESTATE = CONSTRUCT;
     });
 
-    instructionsButton.addEventListener("click", function (event) {
-        GAMESTATE = INSTRUCTIONS;
+//    instructionsButton.addEventListener("click", function (event) {
+//        GAMESTATE = INSTRUCTIONS;
+//    });
+    
+    tradeButton.addEventListener("click", function(evt) {
+        GAMESTATE = TRADE;
     });
     
     saveButton.addEventListener("click", function(evt){
@@ -74,6 +79,10 @@ function handleButtonClick() {
         GAMESTATE = QUIT;
     });
     
+}
+
+function handleButtonHover() {
+    // file manifest first
 }
 
 function keyDown(e) {
@@ -132,11 +141,15 @@ function resetGameTimer() {
     gameTimer = 0;
 }
 
+
 function update(){
     stage.removeAllChildren();
     map.drawMap();
     resources.displayResourcesText();
     options.display();
+    displayFeedback();
+    increasePopulation();
+    foodDecay();
 }
 
 function loop() {
@@ -162,6 +175,7 @@ function loop() {
             break;
         case START_GAME:
             console.log("starting game...");
+            feedbackLog = "Welcome to Colonize!";
             stage.removeAllChildren();
             map.drawMap();
             resources.displayResourcesText();
@@ -169,8 +183,13 @@ function loop() {
             GAMESTATE = IN_GAME;
             break;
         case IN_GAME:
-            console.log("in game");
+//            console.log("in game");
+            runGameTimer();
             update();
+            break;
+        case TRADE:
+            openTraderBoard();
+            GAMESTATE = "Hold";
             break;
         case SAVE_GAME:
             saveGame(grid, civilianSprite, resources);
@@ -182,10 +201,12 @@ function loop() {
         case QUIT:
             console.log("quit");
             GAMESTATE = MENU;
+            resetGameTimer();
             break;
         case GAME_OVER:
-            console.log("game over");
-            gameOverScreen();
+            isgameOver = true;
+            gameOver();
+            resetGameTimer();
             break;
     }
 

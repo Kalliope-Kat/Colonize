@@ -1,7 +1,7 @@
 var fileManifest = [
     {
-        src: "GameScreen.png",
-        id: "gameScreen"
+        src: "gameOverScreen.png",
+        id: "gameOverScreen"
     },
     {
         src: "instructionsScreen.png",
@@ -38,6 +38,10 @@ var fileManifest = [
     {
         src: "quitButton.png",
         id: "quitButton"
+    },
+    {
+        src: "tradeButton.png",
+        id: "tradeButton"
     }
     
 

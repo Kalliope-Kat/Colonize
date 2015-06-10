@@ -10,10 +10,9 @@ var GRASS = 0,
     TOWNHALL = 4,
     PLAYER = 8;
 var isBuild = false;
-var STONECOST = 10,
+var STONECOST = 15,
     WOODCOST = 20;
-var _waterTiles = [];
-var _collisions = [];
+var _empty = [];
 
 var tile = {
     posX: null,
@@ -22,6 +21,23 @@ var tile = {
 
 var civilianSprite = {
     dir: null
+}
+
+var respawnResources = function () {
+    if (gameTimer % 90 === 0) {
+        var randIndex = Math.floor(Math.random() * _empty.length);
+        var randPos = _empty[randIndex];
+        var resourceToSpawn;
+        if (resources.logs > resources.stone) {
+            resourceToSpawn = STONE;
+        } else {
+            resourceToSpawn = TREE;
+        }
+        if (grid.get(randPos.x, randPos.y) === GRASS) {
+            grid.set(resourceToSpawn, randPos.x, randPos.y);
+            console.log("Resource Spawned");
+        }
+    }
 }
 
 var tiles = {
@@ -88,7 +104,7 @@ var grid = {
 var map = {
 
     spawnResources: function (resource) {
-        var _empty = [];
+        
         for (var x = 0; x < grid.width; x++) {
             for (var y = 0; y < grid.height; y++) {
                 if (grid.get(x, y) === resource) {
@@ -120,9 +136,9 @@ var map = {
                 } else {
                     var randIndex = Math.floor(Math.random() * _empty.length);
                     var randPos = _empty[randIndex];
-
-                    grid.set(resource, randPos.x, randPos.y);
-
+                    if(grid.get(randPos.x, randPos.y) === GRASS){
+                        grid.set(resource, randPos.x, randPos.y);
+                    }
                 }
             }
         }
@@ -142,7 +158,6 @@ var map = {
                         break;
                     case WATER:
                         tiles._tileArray[x][y].gotoAndStop("waterTile");
-                        _waterTiles.push(tiles._tileArray[x][y]);
                         break;
                     case WOODCUTTER:
                         tiles._tileArray[x][y].gotoAndStop("woodCuttersTile");
@@ -179,6 +194,10 @@ var map = {
         switch (tileFrame) {
         case TREE:
             resources.logs++;
+            var muliplier = Math.floor(Math.random() * 12);
+            if(muliplier % 2 === 0){
+                resources.food++;
+            }
             console.log("Logs: " + resources.logs);
             collectable = true;
             break;
@@ -190,7 +209,7 @@ var map = {
         }
         
         if(!collectable){
-            alert("You can't collect that!"); //Change to something better
+            feedbackLog = "You can't collect this.";
         }
         else{
             grid.set(GRASS, tile.posX, tile.posY);
@@ -210,7 +229,7 @@ var map = {
                 stage.update();
                 break;
             default: 
-                //error output to error canvas
+                feedbackLog = "You cannot build a house here";
                 break;
         }
         
@@ -233,10 +252,10 @@ var map = {
         civilianSprite.gotoAndPlay("walkSouth");
         var tween = createjs.Tween.get(civilianSprite);
         if(tile.currentFrame === WATER){
-            //You can't go here message.
+            feedbackLog = "You can't travel here.";
         }
         else{
-            tween.to({x:tile.x, y:tile.y}, 3500);
+            tween.to({x:tile.x, y:tile.y}, 4000);
         }
            
         if(isBuild){

@@ -1,4 +1,4 @@
-var titleScreen, instructionScreen, gameScreen;
+var titleScreen, instructionScreen, gameOverScreen;
 var playButton, instructionsButton, tradeButton, saveButton, quitButton;
 var tile, civilianSprite, tilesSheet, boy1Walk, boy1WalkSheet, boy2Walk, girl1Walk, girl2Walk;
 
@@ -56,6 +56,7 @@ var preload = {
         });
 
 
+        gameOverScreen = new createjs.Bitmap(queue.getResult("gameOverScreen"));
         titleScreen = new createjs.Bitmap(queue.getResult("titleScreen"));
         instructionScreen = new createjs.Bitmap(queue.getResult("instructionsScreen"));
         gameScreen = new createjs.Bitmap(queue.getResult("gameScreen"));
@@ -64,6 +65,7 @@ var preload = {
         loadButton = new createjs.Bitmap(queue.getResult("loadButton"));
         saveButton = new createjs.Bitmap(queue.getResult("saveButton"));
         quitButton = new createjs.Bitmap(queue.getResult("quitButton"));
+        tradeButton = new createjs.Bitmap(queue.getResult("tradeButton"));
 
         tile = new createjs.Sprite(tilesSheet);
         civilianSprite = new createjs.Sprite(boy1WalkSheet);

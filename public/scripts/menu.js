@@ -1,14 +1,14 @@
 var menu = {
     display: function () {
         stage.removeAllChildren();
-        titleScreen.x = 0;
+        titleScreen.x = 275;
         titleScreen.y = 0;
 
-        playButton.x = 100;
-        playButton.y = 500;
+        playButton.x = 680;
+        playButton.y = 575;
         
-        loadButton.x = 400;
-        loadButton.y = 500;
+        loadButton.x = 940;
+        loadButton.y = 575;
 
 //        instructionsButton.x = 700;
 //        instructionsButton.y = 500;
