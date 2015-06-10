@@ -66,7 +66,8 @@ var preload = {
         saveButton = new createjs.Bitmap(queue.getResult("saveButton"));
         quitButton = new createjs.Bitmap(queue.getResult("quitButton"));
         tradeButton = new createjs.Bitmap(queue.getResult("tradeButton"));
-
+        menuButton = new createjs.Bitmap(queue.getResult("menuButton"));
+        
         tile = new createjs.Sprite(tilesSheet);
         civilianSprite = new createjs.Sprite(boy1WalkSheet);
         civilianSprite.x = 890;

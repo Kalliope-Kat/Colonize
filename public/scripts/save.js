@@ -14,8 +14,12 @@ var saveGame = function (grid, sprite, resources) {
         data: saveData,
         dataType: 'json',
         success: function () {
-            console.log("saved game");
+//            console.log("saved game");
             feedbackLog = "Game Saved!";
+            GAMESTATE = IN_GAME;
+        },
+        failure: function(){
+            feedbackLog = "Something went wrong...";
             GAMESTATE = IN_GAME;
         }
         

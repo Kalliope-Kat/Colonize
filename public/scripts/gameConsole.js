@@ -18,8 +18,10 @@ var options = {
 var displayFeedback = function(isgameOver){
     var feedbackText = new createjs.Text(feedbackLog, "18px lucida Console", "#333");
     if(isgameOver){
-        feedbackText.x = 750;
+        feedbackText.x = 680;
         feedbackText.y = 400;
+        feedbackText.font = "24px lucida Console";
+        feedbackText.color = "#FFF";
     }
     else{
         feedbackText.x = 10;
@@ -27,18 +29,19 @@ var displayFeedback = function(isgameOver){
     }
     
     stage.addChild(feedbackText);
-    
+    feedbackText = "";
 }
 
 var gameOver = function(){
     stage.removeAllChildren();
+    feedbackLog = "Your colony has starved to death";
     gameOverScreen.x = 275;
     gameOverScreen.y = 0;
 
-    playButton.x = 680;
+    playButton.x = 670;
     playButton.y = 575;
 
-    loadButton.x = 940;
+    loadButton.x = 930;
     loadButton.y = 575;
     
     stage.addChild(gameOverScreen);

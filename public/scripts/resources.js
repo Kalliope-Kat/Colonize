@@ -4,9 +4,19 @@ var resources = {
     population: 1,
     logs: 38,
     farms: 0,
-    food: 0,
+    food: 2,
     stone: 28,
     houses: 0,
+    
+    resetDefaults: function(){
+        this.population = 1;
+        this.logs = 38;
+        this.farms = 0;
+        this.food = 0;
+        this.stone = 28;
+        this.houses = 0;
+    
+    },
 
     displayResourcesText: function () {
         

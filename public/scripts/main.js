@@ -133,7 +133,7 @@ function runGameTimer() {
     if (timerCount % (FPS / 10) === 0) {
         gameTimer = timerCount / (FPS);
     }
-    console.log(gameTimer);
+//    console.log(gameTimer);
 }
 
 function resetGameTimer() {
@@ -142,26 +142,59 @@ function resetGameTimer() {
 }
 
 
-function update(){
+function update() {
     stage.removeAllChildren();
     map.drawMap();
     resources.displayResourcesText();
     options.display();
     displayFeedback();
-    increasePopulation();
-    foodDecay();
+
+    if (gameTimer > 0) {
+        if (resources.population === 0) {
+            GAMESTATE = GAME_OVER;
+        }
+
+        if (gameTimer % 10 === 0) {
+            if (resources.food === 0) {
+                feedbackLog = "People are starving to death...";
+            }
+        }
+
+        if (gameTimer % 10 === 0 && resources.food >= 1) {
+            resources.food = (resources.food - (1 * resources.population));
+        }
+
+
+        if (gameTimer % 20 === 0 && resources.food === 0) {
+            if (resources.population === 1) {
+                resources.population--;
+            } 
+            if(resources.population > 1) {
+                resources.population--;
+                resources.food = resources.food + 10;
+                feedbackLog = "A colonist died from starvation and was eaten";
+                var muliplier = Math.floor(Math.random() * 15);
+                if (muliplier % 2 === 0) {
+                    resources.population--;
+                    feedbackLog = "A Colonist died from tainted human meat";
+                }
+            }
+        }
+    }
 }
 
 function loop() {
 
     switch (GAMESTATE) {
         case MENU:
-            console.log("menu");
+//            console.log("menu");
             menu.display();
             handleButtonClick();
             break;        
         case CONSTRUCT:
-            console.log("constructing...");
+//            console.log("constructing...");
+            feedbackLog = "";   
+            isgameOver = false;
             grid.init();    
             tiles.populateTileArray();
             map.spawnResources(WATER);
@@ -170,11 +203,13 @@ function loop() {
             GAMESTATE = START_GAME;
             break;
         case INSTRUCTIONS:
-            console.log("displaying instructions");
+//            console.log("displaying instructions");
             menu.displayInstructions();
             break;
         case START_GAME:
-            console.log("starting game...");
+//            console.log("starting game...");
+            resetGameTimer();
+            resources.resetDefaults();
             feedbackLog = "Welcome to Colonize!";
             stage.removeAllChildren();
             map.drawMap();
@@ -199,14 +234,12 @@ function loop() {
             loadGame();
             break;
         case QUIT:
-            console.log("quit");
+//            console.log("quit");
             GAMESTATE = MENU;
-            resetGameTimer();
             break;
         case GAME_OVER:
             isgameOver = true;
             gameOver();
-            resetGameTimer();
             break;
     }
 
