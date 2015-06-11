@@ -43,8 +43,12 @@ var fileManifest = [
         src: "tradeButton.png",
         id: "tradeButton"
     },
-    {   src: "menuButton.png",
-        id: "menuButton"
+    {   src: "controls.png",
+        id: "controls"
+    },
+    {
+        src: "key.png",
+        id: "key"
     }
     
 

@@ -105,13 +105,20 @@ function keyDown(e) {
 function keyUp(e) {
     switch (e.keyCode) {
     case 65:
-        console.log("left up");
+        console.log("Starvation Key");
+        resources.food = 0;
+        timerCount = 600;
         break;
     case 87:
-        console.log("Up up");
+        console.log("Cannibalism Key");
+        resources.population--;
+        feedbackLog = "A colonist died from eating rotten human flesh";
         break;
     case 68:
-        console.log("Right up");
+        console.log("Death Key");
+        resources.population = 1;
+        resources.food = 0;
+        timerCount = 1230;
         break;
     case 83:
         console.log("Down released");
@@ -148,6 +155,7 @@ function update() {
     resources.displayResourcesText();
     options.display();
     displayFeedback();
+    displayGameControls();
     
     
     if (gameTimer > 0) {
@@ -168,7 +176,7 @@ function loop() {
             break;        
         case CONSTRUCT:
 //            console.log("constructing...");
-            grid.init();    
+            grid.init();
             tiles.populateTileArray();
             map.spawnResources(WATER);
             map.spawnResources(TREE);
@@ -190,6 +198,7 @@ function loop() {
             map.drawMap();
             resources.displayResourcesText();
             options.display();
+            displayGameControls();
             GAMESTATE = IN_GAME;
             break;
         case IN_GAME:

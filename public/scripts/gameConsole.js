@@ -32,6 +32,17 @@ var displayFeedback = function(isgameOver){
     feedbackText = "";
 }
 
+var displayGameControls = function(){
+    controls.x = 10;
+    controls.y = 50;
+    
+    key.x = 1600;
+    key.y = 50;
+    
+    stage.addChild(controls);
+    stage.addChild(key);
+}
+
 var gameOver = function(){
     stage.removeAllChildren();
     feedbackLog = "Your colony has died out";
