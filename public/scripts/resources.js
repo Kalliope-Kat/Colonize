@@ -15,6 +15,8 @@ var resources = {
         this.food = 3;
         this.stone = 28;
         this.houses = 0;
+        civilianSprite.x = 890;
+        civilianSprite.y = 472.5;
     
     },
 

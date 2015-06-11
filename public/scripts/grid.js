@@ -24,7 +24,7 @@ var civilianSprite = {
 }
 
 var respawnResources = function () {
-    if (gameTimer % 90 === 0) {
+    if (gameTimer % 20 === 0) {
         var randIndex = Math.floor(Math.random() * _empty.length);
         var randPos = _empty[randIndex];
         var resourceToSpawn;
@@ -75,9 +75,10 @@ var tiles = {
 var grid = {
     width: GRID_COLS,
     height: GRID_ROWS,
-    _grid: [],
+    _grid: null,
 
     init: function () {
+        this._grid = [];
 
         for (var x = 0; x < this.width; x++) {
 
