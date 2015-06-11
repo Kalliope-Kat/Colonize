@@ -222,10 +222,12 @@ var map = {
         var tileFrame = tile.currentFrame;
         switch (tileFrame) {
             case GRASS:
-                resources.stone -= STONECOST;
-                resources.logs -= WOODCOST;
-                resources.houses ++;
-                grid.set(HOUSE, tile.posX, tile.posY);
+                if(resources.stone >= STONECOST && resources.logs >= WOODCOST){
+                    resources.stone -= STONECOST;
+                    resources.logs -= WOODCOST;
+                    resources.houses ++;
+                    grid.set(HOUSE, tile.posX, tile.posY);
+                }
                 stage.update();
                 break;
             default: 

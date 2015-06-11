@@ -34,7 +34,7 @@ var displayFeedback = function(isgameOver){
 
 var gameOver = function(){
     stage.removeAllChildren();
-    feedbackLog = "Your colony has starved to death";
+    feedbackLog = "Your colony has died out";
     gameOverScreen.x = 275;
     gameOverScreen.y = 0;
 

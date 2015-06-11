@@ -1,18 +1,18 @@
 var logsText, farmsText, foodText, stoneText, houseText;
 
 var resources = {
-    population: 1,
+    population: 3,
     logs: 38,
     farms: 0,
-    food: 2,
+    food: 3,
     stone: 28,
     houses: 0,
     
     resetDefaults: function(){
-        this.population = 1;
+        this.population = 3;
         this.logs = 38;
         this.farms = 0;
-        this.food = 0;
+        this.food = 3;
         this.stone = 28;
         this.houses = 0;
     
