@@ -49,6 +49,10 @@ var fileManifest = [
     {
         src: "key.png",
         id: "key"
+    },
+    {
+        src: "winscreen.png",
+        id: "winscreen"
     }
     
 

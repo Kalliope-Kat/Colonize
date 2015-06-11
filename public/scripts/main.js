@@ -10,7 +10,8 @@ var CONSTRUCT = 100,
     SAVE_GAME = 700,
     LOAD_GAME = 800,
     TRADE = 900,
-    MENU = 1000;
+    MENU = 1000,
+    WIN = 1100;
 var queue, timerCount, gameTimer;
 var logs = 100, firewood = 100, food = 250, stone = 100;
 var feedbackLog;
@@ -121,7 +122,9 @@ function keyUp(e) {
         timerCount = 1230;
         break;
     case 83:
-        console.log("Down released");
+        console.log("Win key");
+        resources.farms = 4;
+        resources.houses = 4;
         break;
     }
 
@@ -163,7 +166,16 @@ function update() {
         foodIncrease();
         foodDecay();
         increasePopulation();
+        
+        if(gameTimer % 2 === 0){
+            if(resources.farms === 4 && resources.houses === 5){
+                GAMESTATE = WIN;
+            }
+        }
+        
     }
+    
+    
 }
 
 function loop() {
@@ -224,6 +236,9 @@ function loop() {
         case GAME_OVER:
             isgameOver = true;
             gameOver();
+            break;
+        case WIN:
+            win();
             break;
     }
 

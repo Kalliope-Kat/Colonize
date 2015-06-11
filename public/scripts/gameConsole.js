@@ -32,6 +32,27 @@ var displayFeedback = function(isgameOver){
     feedbackText = "";
 }
 
+var win = function(){
+    stage.removeAllChildren();
+    isgameOver = true;
+    
+    feedbackLog = "Your colony has thrived!";
+    
+    winscreen.x = 275;
+    winscreen.y = 0;
+    
+    playButton.x = 670;
+    playButton.y = 575;
+
+    loadButton.x = 930;
+    loadButton.y = 575;
+    
+    stage.addChild(winscreen);
+    stage.addChild(playButton);
+    stage.addChild(loadButton);
+    displayFeedback(isgameOver);
+}
+
 var displayGameControls = function(){
     controls.x = 10;
     controls.y = 50;
