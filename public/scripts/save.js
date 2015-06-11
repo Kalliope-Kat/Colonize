@@ -5,7 +5,10 @@ var saveGame = function (grid, sprite, resources) {
         spriteY: sprite.y,
         logs: resources.logs,
         stone: resources.stone,
-        houses: resources.houses
+        houses: resources.houses,
+        population: resources.population,
+        farms: resources.farms,
+        food: resources.food
     };
 
     jqAjax.ajax({

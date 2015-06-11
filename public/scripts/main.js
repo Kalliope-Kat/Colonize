@@ -133,7 +133,7 @@ function runGameTimer() {
     if (timerCount % (FPS / 10) === 0) {
         gameTimer = timerCount / (FPS);
     }
-//    console.log(gameTimer);
+    console.log(gameTimer);
 }
 
 function resetGameTimer() {
@@ -151,6 +151,8 @@ function update() {
     
     
     if (gameTimer > 0) {
+        respawnResources();
+        foodIncrease();
         foodDecay();
         increasePopulation();
     }
@@ -170,7 +172,8 @@ function loop() {
             tiles.populateTileArray();
             map.spawnResources(WATER);
             map.spawnResources(TREE);
-            map.spawnResources(STONE);
+            map.spawnResources(STONE);            
+            resources.resetDefaults();
             GAMESTATE = START_GAME;
             break;
         case INSTRUCTIONS:
@@ -178,11 +181,10 @@ function loop() {
             menu.displayInstructions();
             break;
         case START_GAME:
-//            console.log("starting game...");
-            resetGameTimer();
-            resources.resetDefaults();
             taintedMeat = false;
             isgameOver = false;
+            resetGameTimer();
+//            console.log("starting game...");
             feedbackLog = "Welcome to Colonize!";
             stage.removeAllChildren();
             map.drawMap();

@@ -18,7 +18,7 @@ var options = {
 var displayFeedback = function(isgameOver){
     var feedbackText = new createjs.Text(feedbackLog, "18px lucida Console", "#333");
     if(isgameOver){
-        feedbackText.x = 680;
+        feedbackText.x = 730;
         feedbackText.y = 400;
         feedbackText.font = "24px lucida Console";
         feedbackText.color = "#FFF";

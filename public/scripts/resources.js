@@ -1,18 +1,18 @@
 var logsText, farmsText, foodText, stoneText, houseText;
 
 var resources = {
-    population: 3,
-    logs: 38,
+    population: 4,
+    logs: 48,
     farms: 0,
-    food: 3,
+    food: 8,
     stone: 28,
     houses: 0,
     
     resetDefaults: function(){
-        this.population = 3;
-        this.logs = 38;
+        this.population = 5;
+        this.logs = 48;
         this.farms = 0;
-        this.food = 3;
+        this.food = 8;
         this.stone = 28;
         this.houses = 0;
         civilianSprite.x = 890;

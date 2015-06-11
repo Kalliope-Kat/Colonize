@@ -9,9 +9,11 @@ var GRASS = 0,
     HOUSE = 1,
     TOWNHALL = 4,
     PLAYER = 8;
+var HSTONECOST = 15,
+    HWOODCOST = 20,
+    FWOODCOST = 25;
 var isBuild = false;
-var STONECOST = 15,
-    WOODCOST = 20;
+var isFarm = false;
 var _empty = [];
 
 var tile = {
@@ -53,15 +55,20 @@ var tiles = {
                 this._tileArray[i][j].posX = i;
                 this._tileArray[i][j].posY = j;
                 this._tileArray[i][j].on("click", function (evt) {
-                    console.log("shift: " + evt.nativeEvent.shiftKey);
+                    console.log("ctrl: " + evt.nativeEvent.ctrlKey);
                     if (evt.nativeEvent.shiftKey) {
                         console.log("building at: " + this.x + "," + this.y);
                         isBuild = true;
-                        map.moveCharacter(this, isBuild);
-                    } else {
+                        map.moveCharacter(this);
+                    }
+                    else if (evt.nativeEvent.ctrlKey){
+                        isFarm = true;
+                        map.moveCharacter(this);
+                    }
+                    else {
                         console.log("tile clicked at: " + this.x + ", " + this.y + ", " + this.currentAnimation);
                         isBuild = false;
-                        map.moveCharacter(this, isBuild); //pass tile, posX, posY and call gather in tween call
+                        map.moveCharacter(this); //pass tile, posX, posY and call gather in tween call
                         //                    map.gatherResource(this, this.posX, this.posY);
                     }
 
@@ -223,11 +230,14 @@ var map = {
         var tileFrame = tile.currentFrame;
         switch (tileFrame) {
             case GRASS:
-                if(resources.stone >= STONECOST && resources.logs >= WOODCOST){
-                    resources.stone -= STONECOST;
-                    resources.logs -= WOODCOST;
+                if(resources.stone >= HSTONECOST && resources.logs >= HWOODCOST){
+                    resources.stone -= HSTONECOST;
+                    resources.logs -= HWOODCOST;
                     resources.houses ++;
                     grid.set(HOUSE, tile.posX, tile.posY);
+                }
+                else{
+                    feedbackLog = "You do not have 15 Stone and 20 Logs";
                 }
                 stage.update();
                 break;
@@ -235,7 +245,29 @@ var map = {
                 feedbackLog = "You cannot build a house here";
                 break;
         }
-        
+        isBuild = false;
+        civilianSprite.stop();
+    },
+    
+    buildFarm: function(tile) {
+        var tileFrame = tile.currentFrame;
+        switch (tileFrame) {
+            case GRASS:
+                if(resources.logs >= FWOODCOST){
+                    resources.logs -= FWOODCOST;
+                    resources.farms ++;
+                    grid.set(FARM, tile.posX, tile.posY);
+                }
+                else{
+                    feedbackLog = "You do not have 25 Logs.";
+                }
+                stage.update();
+                break;
+            default: 
+                feedbackLog = "You cannot build a farm here";
+                break;
+        }
+        isFarm = false;
         civilianSprite.stop();
     },
     
@@ -251,7 +283,13 @@ var map = {
         }
     },
     
-    moveCharacter: function(tile, isBuild){ //handle water movement here
+    handleFarm: function(tile){
+        return function(){
+            map.buildFarm(tile);
+        }
+    },
+    
+    moveCharacter: function(tile){ //handle water movement here
         civilianSprite.gotoAndPlay("walkSouth");
         var tween = createjs.Tween.get(civilianSprite);
         if(tile.currentFrame === WATER){
@@ -263,6 +301,9 @@ var map = {
            
         if(isBuild){
             tween.call(map.handleBuilding(tile));
+        }
+        if(isFarm){
+            tween.call(map.handleFarm(tile));
         }
         else{
             tween.call(map.handleGathering(tile)); 

@@ -14,7 +14,7 @@ var foodDecay = function () {
 
     if (gameTimer % 9 === 0 && resources.food >= 1) {
         if(gameTimer != lastTick){
-            resources.food = (resources.food - (1 * resources.population));
+            resources.food = (resources.food - (2 * resources.population));
             lastTick = Math.floor(gameTimer);
         }
         
@@ -45,4 +45,13 @@ var foodDecay = function () {
         }
     }
 
+}
+
+var foodIncrease = function () {
+    if (gameTimer % 10 === 0 && lastTick != gameTimer) {
+        if (resources.farms > 0) {
+            resources.food = (resources.food + (resources.farms * 8));
+            lastTick = Math.floor(gameTimer);
+        }
+    }
 }
