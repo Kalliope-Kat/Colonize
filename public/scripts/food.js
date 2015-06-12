@@ -48,7 +48,7 @@ var foodDecay = function () {
 }
 
 var foodIncrease = function () {
-    if (gameTimer % 10 === 0 && lastTick != gameTimer) {
+    if (gameTimer % 5 === 0 && lastTick != gameTimer) {
         if (resources.farms > 0) {
             resources.food = (resources.food + (resources.farms * 8));
             lastTick = Math.floor(gameTimer);

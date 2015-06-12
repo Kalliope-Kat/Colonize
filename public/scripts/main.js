@@ -126,6 +126,10 @@ function keyUp(e) {
         resources.farms = 4;
         resources.houses = 4;
         break;
+    case 81:
+        console.log("Population Key");
+        resources.population++;
+        break;
     }
 
 }
